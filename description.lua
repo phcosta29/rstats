@@ -1,0 +1,9 @@
+version = "0.1"
+date = "09 March 2016"
+package = "rstats"
+title = "RServe integration"
+content = [[A package with statistical functions using Rserve.]]
+url = "https://github.com/pedro-andrade-inpe/rstats"
+authors = "Pedro R. Andrade"
+contact = "pedro.andrade@inpe.br"
+license = "LGPL-3"
