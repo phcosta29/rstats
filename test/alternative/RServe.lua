@@ -37,3 +37,14 @@ return {
 
 		unitTest:assertError(error_func, "Could not connect to RServe at localhost using port 987654.")
 	end,
+	evaluate = function(unitTest)
+		local R = Rserve{}
+
+		error_func = function()
+			R:evaluate(2)
+		end
+
+		unitTest:assertError(error_func, incompatibleTypeMsg(1, "string", 2))
+	end
+}
+
