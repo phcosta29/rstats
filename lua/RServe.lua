@@ -3,7 +3,7 @@ RServe_ = {
 	--- Returns an error message  or a value.
 	-- ff an entry is of an incompatible type returns with error.
 	-- @arg expression The expression must be passed to R.
-	-- @usage import RServe 
+	-- @usage import RServe
 	-- R = RServe{}
 	-- R:evaluate(2)
 	evaluate = function(self,expression)
@@ -25,11 +25,8 @@ metaTableRServe_ = {
 -- @usage import RServe
 -- R1 = RServe{host="name", port=6312}
 function RServe(attrTab)
-
 	local host
-
 	local port
-
 	if type(attrTab)~="table" and attrTab~=nil then
 		verifyNamedTable(attrTab)
 	else
@@ -40,10 +37,8 @@ function RServe(attrTab)
 		else
 			if type(attrTab.host)~="string" and attrTab.host~=nil then
 				incompatibleTypeError("host", "string", attrTab.host)
-			elseif attrTab.host=="localhost" then
+			elseif attrTab.host=="localhost" or attrTab.host==nil then
 				defaultTableValue(attrTab, "host", "localhost")
-			elseif attrTab.host==nil then
-				attrTab.host="localhost"
 				host=attrTab.host
 			else
 				host=attrTab.host
@@ -51,17 +46,14 @@ function RServe(attrTab)
 
 			if type(attrTab.port)~="number" and attrTab.port then
 				incompatibleTypeError("port", "number", attrTab.port)
-			elseif attrTab.port==6311 then
+			elseif attrTab.port==6311 or attrTab.port==nil then
 				defaultTableValue(attrTab, "port", 6311)
-			elseif attrTab.port==nil then
-				attrTab.port=6311
 				port=attrTab.port
 			else
 				port=attrTab.port
 			end
 		end
 	end
-
 	setmetatable(attrTab, metaTableRServe_)
 	return attrTab
 end
