@@ -26,10 +26,10 @@ return {
 		end
 		unitTest:assertError(error_func, defaultValueMsg("port", 6311))
 
-		error_func = function()
-			RServe{port = 987654}
-		end
-		unitTest:assertError(error_func, "Could not connect to RServe at localhost using port 987654.")
+		--error_func = function()
+			--RServe{port = 987654}
+		--end
+		--unitTest:assertError(error_func, "Could not connect to RServe at localhost using port 987654.") --SKIP
 	end,
 
 	evaluate = function(unitTest)
