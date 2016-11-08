@@ -119,7 +119,7 @@ RServe_ = {
 	-- @arg expression The expression must be passed to R.
 	-- @usage import ("rstats")
 	-- R = RServe{}
-	-- R:evaluate("x=2") 
+	-- R:evaluate("x=4") 
 	evaluate = function(self,expression)
 		if type(expression) ~= "string" then
 			incompatibleTypeError(1, "string", expression)
