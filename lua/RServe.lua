@@ -169,9 +169,9 @@ local function luarserveparseids(idstring, rsserver, rsport)
   local rspver = string.sub(idstring, 5, 8)
   local rsp = string.sub(idstring, 9, 12)
   local rsatts = string.sub(idstring, 13)
-  local server = {serverid = rsid, protocol = rsp, protversion = rspver,
+  local serv = {serverid = rsid, protocol = rsp, protversion = rspver,
                   attributes = rsatts, host = rsserver, port = rsport}
-  return server
+  return serv
 end
 
 local function calltcp(rsserver, rsport, msg)
