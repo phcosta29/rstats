@@ -163,16 +163,6 @@ local function parsesexp(sexp)
   return(sexpexps)
 end
 
-local function luarserveparseids(idstring, rsserver, rsport)
-  local rsid = string.sub(idstring, 1, 4)
-  local rspver = string.sub(idstring, 5, 8)
-  local rsp = string.sub(idstring, 9, 12)
-  local rsatts = string.sub(idstring, 13)
-  local server = {serverid = rsid, protocol = rsp, protversion = rspver,
-                  attributes = rsatts, host = rsserver, port = rsport}
-  return server
-end
-
 local function calltcp(rsserver, rsport, msg)
   tcp = socket.tcp() 
   tcp:settimeout(1, 'b')
