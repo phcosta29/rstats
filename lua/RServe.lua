@@ -1,7 +1,7 @@
 local vstruct = require("vstruct")
 local socket = require("socket")
 local tcp = assert(socket.tcp())
-local server
+local server = {}
 local QAP1_HEADER_FORMAT = "4*u4"			
 local QAP1_PARAMETER_HEADER_FORMAT = "u1 u3"         
 local QAP1_SEXP_HEADER_TYPE_FORMAT = "[1 | b2 u6]"
