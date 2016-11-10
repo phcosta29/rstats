@@ -55,32 +55,22 @@ metaTableRServe_ = {
 -- @usage import ("rstats")
 -- R = RServe{}
 function RServe(attrTab)
-	local host
-	local port
 	if type(attrTab) ~= "table" and attrTab ~= nil then
 		verifyNamedTable(attrTab)
 	else
 		if type(attrTab) ~= "table" and attrTab == nil then
 			attrTab = {host = "localhost", port = 6311}
-			host = "localhost"
-			port = 6311
 		else
 			if type(attrTab.host) ~= "string" and attrTab.host ~= nil then
 				incompatibleTypeError("host", "string", attrTab.host)
 			elseif attrTab.host == "localhost" or attrTab.host == nil then
 				defaultTableValue(attrTab, "host", "localhost")
-				host = attrTab.host
-			else
-				host = attrTab.host
 			end
 
 			if type(attrTab.port) ~= "number" and attrTab.port then
 				incompatibleTypeError("port", "number", attrTab.port)
 			elseif attrTab.port == 6311 or attrTab.port == nil then
 				defaultTableValue(attrTab, "port", 6311)
-				port = attrTab.port
-			else	
-				port = attrTab.port
 			end
 		end
 	end
