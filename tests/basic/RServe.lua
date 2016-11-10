@@ -199,12 +199,12 @@ return {
 		unitTest:assertEquals(#x[1][2][20][2], 5)
 
 		local error_func = function()
-			x = R:evaluate("x = 2 + v")
+			R:evaluate("x = 2 + v")
 		end
 		unitTest:assertError(error_func, "[RServe] Error: objeto 'v' não encontrado", 1)
 		
 		error_func = function()
-			x = R:evaluate("x <- 1:10; y <- if (x < 5 ) 0 else 1")		
+			R:evaluate("x <- 1:10; y <- if (x < 5 ) 0 else 1")		
 		end
 		unitTest:assertError(error_func, "[RServe] Warning: a condição tem comprimento > 1 e somente o primeiro elemento será usado", 1)
 
