@@ -1,7 +1,7 @@
 local vstruct = require("vstruct")
 local socket = require("socket")
 local tcp = assert(socket.tcp())
-local server = {}
+local server
 local QAP1_HEADER_FORMAT = "4*u4"			
 local QAP1_PARAMETER_HEADER_FORMAT = "u1 u3"         
 local QAP1_SEXP_HEADER_TYPE_FORMAT = "[1 | b2 u6]"
@@ -92,12 +92,6 @@ local function splitstring(str, sep)
   return res
 end
 
-local function getserverdata(rsserver, rsport)
-  local s, status, partial = calltcp(rsserver, rsport, " ")
-  local res = s or partial
-  server = luarserveparseids(string.sub(res , 1 , 32), rsserver, rsport)
-end
-
 local function buildstrmsg(rexp)
   local command = 3          
   local length = (#rexp + 4) 
@@ -140,7 +134,7 @@ local function parsesexp(sexp)
     end 
     local content = string.sub(sexp, token, sexpend)
     token = sexpend + 1 
-    local data = ""
+    local data
     if header.exptype == 0 then  
       data = "XT_NULL"
     elseif header.exptype == 3 or header.exptype == 19 then 
