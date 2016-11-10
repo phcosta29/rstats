@@ -196,7 +196,7 @@ end
 function luarserveevaluate(rsserver, rsport, rexp)
   local parameters = {}
   local msgbin = buildstrmsg(rexp)
-  local s, stat, partial = calltcp(rsserver, rsport, msgbin)
+  local s, status_, partial = calltcp(rsserver, rsport, msgbin)
   local res = s or partial
   local idstring = string.sub(res, 1, 32)
   local qmsg = string.sub(res, 33)
