@@ -1,5 +1,5 @@
 
-return {
+--return {
 	--mean = function(unitTest)
 		--local error_func = function()
 			--mean()
@@ -80,5 +80,5 @@ return {
 
 		--unitTest:assertError(error_func, "Attribute 'value' does not belong to the Society.") --SKIP
 	--end
-}
+--}
 
