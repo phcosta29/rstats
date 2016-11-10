@@ -168,9 +168,9 @@ local function luarserveparseids(idstring, rsserver, rsport)
   local rspver = string.sub(idstring, 5, 8)
   local rsp = string.sub(idstring, 9, 12)
   local rsatts = string.sub(idstring, 13)
-  local serv = {serverid = rsid, protocol = rsp, protversion = rspver,
+  local server = {serverid = rsid, protocol = rsp, protversion = rspver,
                   attributes = rsatts, host = rsserver, port = rsport}
-  return serv
+  return server
 end
 
 local function calltcp(rsserver, rsport, msg)
@@ -199,7 +199,6 @@ function luarserveevaluate(rsserver, rsport, rexp)
   local res = s or partial
   local idstring = string.sub(res, 1, 32)
   local qmsg = string.sub(res, 33)
-  _ = luarserveparseids(string.sub(idstring , 1 , 32), rsserver, rsport)
   local qmsgheader = vstruct.read(QAP1_HEADER_FORMAT, string.sub(qmsg, 1, 16))
   local qmsgdata = string.sub(qmsg, 17)
   local token = 1 
