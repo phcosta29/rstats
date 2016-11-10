@@ -192,12 +192,6 @@ local function calltcp(rsserver, rsport, msg)
   return s, status, partial
 end
 
-local function luarservegetserverid(rsserver, rsport)
-  if(#server == 0) then
-    getserverdata(rsserver, rsport)
-  end
-end
-
 --- Establishes connection with R and returns value.
 -- if an entry is of an incompatible type returns with error.
 -- @arg rsserver The rsserver(host name) must be passed to R, but not necessarily by the user.
