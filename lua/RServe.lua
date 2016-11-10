@@ -199,7 +199,7 @@ function luarserveevaluate(rsserver, rsport, rexp)
   local res = s or partial
   local idstring = string.sub(res, 1, 32)
   local qmsg = string.sub(res, 33)
-  local _ = luarserveparseids(string.sub(idstring , 1 , 32), rsserver, rsport)
+  _ = luarserveparseids(string.sub(idstring , 1 , 32), rsserver, rsport)
   local qmsgheader = vstruct.read(QAP1_HEADER_FORMAT, string.sub(qmsg, 1, 16))
   local qmsgdata = string.sub(qmsg, 17)
   local token = 1 
