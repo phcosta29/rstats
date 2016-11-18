@@ -1,5 +1,6 @@
-    function dofile (init.lua)
-      local f = assert(loadfile(init.lua))
+    function dofile (filename)
+      f = assert(loadfile(filename))
       return f()
     end
 
+    dofile("init.lua")
