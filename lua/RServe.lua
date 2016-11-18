@@ -1,8 +1,8 @@
 local vstruct = require("vstruct")
 local socket = require("socket")
 local tcp = assert(socket.tcp())
-local QAP1_HEADER_FORMAT = "4*u4"			
-local QAP1_PARAMETER_HEADER_FORMAT = "u1 u3"         
+local QAP1_HEADER_FORMAT = "4*u4"
+local QAP1_PARAMETER_HEADER_FORMAT = "u1 u3"
 local QAP1_SEXP_HEADER_TYPE_FORMAT = "[1 | b2 u6]"
 local QAP1_SEXP_HEADER_LEN_FORMAT = "u3"
 
@@ -13,31 +13,32 @@ RServe_ = {
 	-- @arg expression The expression must be passed to R.
 	-- @usage import ("rstats")
 	-- R = RServe{}
-	-- R:evaluate("x=4") 
+	-- R:evaluate("x=4")
 	evaluate = function(self,expression)
 		if type(expression) ~= "string" then
 			incompatibleTypeError(1, "string", expression)
 		end
+		luarserveevaluate(self.host, self.port, "Sys.setenv(LANG="en")")
 		local result = luarserveevaluate(self.host, self.port, "tryCatch({"..expression.."}, warning = function(war){return(list(war,0))}, error = function(err){return(list(err,1))})")
 		if result[1] then
-			if result[1][1] and type(result[1][1]) ~= "number" and type(result[1][1]) ~= "string" and type(result[1][1]) ~= "boolean" then		
-				if result[1][1][3] and type(result[1][1][3]) ~= "number" and type(result[1][1][3]) ~= "string" and type(result[1][1][3]) ~= "boolean" then		
+			if result[1][1] and type(result[1][1]) ~= "number" and type(result[1][1]) ~= "string" and type(result[1][1]) ~= "boolean" then
+				if result[1][1][3] and type(result[1][1][3]) ~= "number" and type(result[1][1][3]) ~= "string" and type(result[1][1][3]) ~= "boolean" then
 					if result[1][1][3][1] == 1 then
 						return customError("[RServe] Error: "..result[1][1][2][1][1])
 					else if result[1][1][3][1] == 0 then
 						return customWarning("[RServe] Warning: "..result[1][1][2][1][1])
 					else
 						return result
-               				end	
+               				end
 					end
-				else				
+				else
 					return result
 				end
 			else
 				return result
 			end
 		else
-			return result	
+			return result
 		end
 	end
 }
@@ -92,11 +93,11 @@ local function splitstring(str, sep)
 end
 
 local function buildstrmsg(rexp)
-  local command = 3          
-  local length = (#rexp + 4) 
-  local offset = 0           
-  local length2 = 0          
-  local dptype = 4           
+  local command = 3
+  local length = (#rexp + 4)
+  local offset = 0
+  local length2 = 0
+  local dptype = 4
   local data = {command, length, offset, length2, dptype, #rexp, rexp}
   local dp_fmt = "u1 u3 s" .. #rexp
   local fmt = QAP1_HEADER_FORMAT .. " " .. dp_fmt
@@ -108,7 +109,7 @@ local function getheader(str)
     return("ERROR: Invalid header (too short)")
   end
   local header = string.sub(str, 1, 4)
-  local type = vstruct.read(QAP1_SEXP_HEADER_TYPE_FORMAT, string.sub(header, 1, 1)) 
+  local type = vstruct.read(QAP1_SEXP_HEADER_TYPE_FORMAT, string.sub(header, 1, 1))
   local len = vstruct.read(QAP1_SEXP_HEADER_LEN_FORMAT, string.sub(header, 2, 4))
   return({["exptype"] = type[2], ["hasatts"] = type[1], ["explen"] = len[1]})
 end
@@ -118,41 +119,41 @@ local function parsesexp(sexp)
     return("WARNING: Invalid SEXP (too short) - " .. #sexp)
   end
   local sexpexps = {}
-  local sexpcounter = 1 
+  local sexpcounter = 1
   local token = 1
   repeat
     local header = getheader(string.sub(sexp, token, token + 3))
     token = token + 4
-    local sexpend = token + header.explen - 1 
+    local sexpend = token + header.explen - 1
     if header.hasatts then
       local attheader = getheader(string.sub(sexp, token, token + 3))
-      local att = parsesexp(string.sub(sexp, token, token + attheader.explen + 3)) 
-      token = token + 4 + attheader.explen 
+      local att = parsesexp(string.sub(sexp, token, token + attheader.explen + 3))
+      token = token + 4 + attheader.explen
       sexpexps[sexpcounter] = att
       sexpcounter = sexpcounter + 1
-    end 
+    end
     local content = string.sub(sexp, token, sexpend)
-    token = sexpend + 1 
+    token = sexpend + 1
     local data
-    if header.exptype == 0 then  
+    if header.exptype == 0 then
       data = "XT_NULL"
-    elseif header.exptype == 3 or header.exptype == 19 then 
+    elseif header.exptype == 3 or header.exptype == 19 then
       data = vstruct.read(#content .. "*s", content)
     elseif header.exptype == 16 or header.exptype == 21 or header.exptype == 23
-        or header.exptype == 20 or header.exptype == 22 then 
+        or header.exptype == 20 or header.exptype == 22 then
       data = parsesexp(content)
-    elseif header.exptype == 32 then                         
+    elseif header.exptype == 32 then
       local len = #content / 4
       data = vstruct.read(len .. "*u4", content)
-    elseif header.exptype == 33 then                         
+    elseif header.exptype == 33 then
       local len = #content / 8
       data = vstruct.read(len .. "*f8", content)
-    elseif header.exptype == 34 then                         
+    elseif header.exptype == 34 then
       data = splitstring(content, string.char(0))
-    elseif header.exptype == 36 then                         
+    elseif header.exptype == 36 then
       local len = vstruct.read("u4", string.sub(content, 1, 4))[1]
       data = vstruct.read(len .. "*b1", string.sub(content, 5))
-    elseif header.exptype == 48 then                         
+    elseif header.exptype == 48 then
         data = "XT_UNKNOWN"
     else
       return("ERROR: unknown QAP1 expression type:" .. header.exptype)
@@ -164,7 +165,7 @@ local function parsesexp(sexp)
 end
 
 local function calltcp(rsserver, rsport, msg)
-  tcp = socket.tcp() 
+  tcp = socket.tcp()
   tcp:settimeout(1, 'b')
   tcp:connect(rsserver, rsport)
   if msg and msg ~= " " then
@@ -181,7 +182,7 @@ end
 -- @arg rsport The rsport(port number) must be passed to R, but not necessarily by the user.
 -- @arg rexp The rexp(expression) must be passed to R.
 -- @usage import ("rstats")
--- luarserveevaluate("localhost", 6311, "x=2") 
+-- luarserveevaluate("localhost", 6311, "x=2")
 function luarserveevaluate(rsserver, rsport, rexp)
   local parameters = {}
   local msgbin = buildstrmsg(rexp)
@@ -190,27 +191,26 @@ function luarserveevaluate(rsserver, rsport, rexp)
   local qmsg = string.sub(res, 33)
   local qmsgheader = vstruct.read(QAP1_HEADER_FORMAT, string.sub(qmsg, 1, 16))
   local qmsgdata = string.sub(qmsg, 17)
-  local token = 1 
+  local token = 1
   local pcounter = 1
   repeat
 
     local paramheader = vstruct.read(QAP1_PARAMETER_HEADER_FORMAT, string.sub(qmsgdata, token, token + 3))
-    token = token + 4 
+    token = token + 4
     local parambody = string.sub(qmsgdata, token, token + paramheader[2] - 1)
-    if paramheader[1] == 1 then                              
-      parameters[pcounter] = vstruct.read("u4", parambody)   
-    elseif paramheader[1] == 3 then                          
-      parameters[pcounter] = vstruct.read("f4", parambody)   
-    elseif paramheader[1] == 2 or paramheader[1] == 4 then   
-      parameters[pcounter] = vstruct.read("s", parambody)    
-    elseif paramheader[1] == 10 then                         
+    if paramheader[1] == 1 then
+      parameters[pcounter] = vstruct.read("u4", parambody)
+    elseif paramheader[1] == 3 then
+      parameters[pcounter] = vstruct.read("f4", parambody)
+    elseif paramheader[1] == 2 or paramheader[1] == 4 then
+      parameters[pcounter] = vstruct.read("s", parambody)
+    elseif paramheader[1] == 10 then
       parameters[pcounter] = parsesexp(parambody)
     else
       return("ERROR: parameter type " .. paramheader[1] .. " not implemented")
     end
-    token = token + paramheader[2] 
+    token = token + paramheader[2]
     pcounter = pcounter + 1
   until token > qmsgheader[2]
   return(parameters)
 end
-
