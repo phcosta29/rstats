@@ -8,13 +8,13 @@ local QAP1_SEXP_HEADER_LEN_FORMAT = "u3"
 
 RServe_ = {
 	type_ = "RServe",
-	--- Returns an error message or a value.
+	--- Execute an R command. It returnr an error message or a value.
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression The expression must be passed to R.
 	-- @usage import ("rstats")
 	-- R = RServe{}
-	-- R:evaluate("x=4") 
-	evaluate = function(self,expression)
+	-- R:evaluate("x = 4") 
+	evaluate = function(self, expression)
 		if type(expression) ~= "string" then
 			incompatibleTypeError(1, "string", expression)
 		end
