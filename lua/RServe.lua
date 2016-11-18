@@ -198,12 +198,6 @@ function luarserveevaluate(rsserver, rsport, rexp)
     local paramheader = vstruct.read(QAP1_PARAMETER_HEADER_FORMAT, string.sub(qmsgdata, token, token + 3))
     token = token + 4
     local parambody = string.sub(qmsgdata, token, token + paramheader[2] - 1)
-    if paramheader[1] == 1 then
-      parameters[pcounter] = vstruct.read("u4", parambody)
-    elseif paramheader[1] == 3 then
-      parameters[pcounter] = vstruct.read("f4", parambody)
-    elseif paramheader[1] == 2 or paramheader[1] == 4 then
-      parameters[pcounter] = vstruct.read("s", parambody)
     elseif paramheader[1] == 10 then
       parameters[pcounter] = parsesexp(parambody)
     else
