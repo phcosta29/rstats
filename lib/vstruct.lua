@@ -3,4 +3,4 @@ function dofile(filename)
   return f ()
 end
 
-local val = dofile("init.lua")
+local val = dofile("vstruct/init.lua")
