@@ -3,4 +3,4 @@ function dofile(filename)
   return f ()
 end
 
-local val = dofile("vstruct/init.lua")
+local val = dofile(packageInfo("rstats").path.."lib/vstruct/init.lua")
