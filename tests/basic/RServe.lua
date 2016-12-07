@@ -3,28 +3,28 @@ return {
 		local R = RServe()
 	  	unitTest:assertType(R, "RServe")
 	end,
-	
+
 	luarserveevaluate = function(unitTest)
 		local R = RServe{}
 		local x = R:evaluate("x = 2")
-		unitTest:assertEquals(#x[1][1], 1)		
+		unitTest:assertEquals(#x[1][1], 1)
 		unitTest:assertEquals(x[1][1][1], 2)
 	end,
 
 	evaluate = function(unitTest)
 		local R = RServe{}
 		local x = R:evaluate("x = 2")
-		unitTest:assertEquals(#x[1][1], 1)		
+		unitTest:assertEquals(#x[1][1], 1)
 		unitTest:assertEquals(x[1][1][1], 2)
-		
+
 		x = R:evaluate("rnorm(100)")
-		unitTest:assertEquals(#x[1][1], 100)		
+		unitTest:assertEquals(#x[1][1], 100)
 
 		x = R:evaluate("runif(1, 5.0, 7.5)")
 		unitTest:assertEquals(#x[1][1], 1)
 		unitTest:assert(x[1][1][1] > 5)
 		unitTest:assert(x[1][1][1] < 7.5)
-		
+
 		x = R:evaluate("replicate(5, rnorm(7))")
 		unitTest:assertEquals(#x[1][2], 35)
 		unitTest:assertEquals(x[1][1][1][1][1], 7)
@@ -37,8 +37,8 @@ return {
 		unitTest:assertEquals(x[1][1][3], 5.3)
 		unitTest:assertEquals(x[1][1][4], 6)
 		unitTest:assertEquals(x[1][1][5], -2)
-		unitTest:assertEquals(x[1][1][6], 4)	
-		
+		unitTest:assertEquals(x[1][1][6], 4)
+
 		--bug commit separado
 		x = R:evaluate("b <- c('one','two','three')")
 		unitTest:assertEquals(#x[1][1], 3)
@@ -46,7 +46,7 @@ return {
 		unitTest:assertEquals(x[1][1][2], "two", 1)
 		unitTest:assertEquals(x[1][1][3], "three", 1)
 
-		x = R:evaluate("c <- c(TRUE,TRUE,TRUE,FALSE,TRUE,FALSE)")	
+		x = R:evaluate("c <- c(TRUE,TRUE,TRUE,FALSE,TRUE,FALSE)")
 		unitTest:assertEquals(#x[1][1], 6)
 		unitTest:assertEquals(x[1][1][1], true)
 		unitTest:assertEquals(x[1][1][2], true)
@@ -64,7 +64,7 @@ return {
 		unitTest:assertEquals(x[1][2][3], 3)
 		unitTest:assertEquals(x[1][2][4], 4)
 		unitTest:assertEquals(x[1][2][5], 5)
-		unitTest:assertEquals(x[1][2][6], 6)	
+		unitTest:assertEquals(x[1][2][6], 6)
 		unitTest:assertEquals(x[1][2][7], 7)
 		unitTest:assertEquals(x[1][2][8], 8)
 		unitTest:assertEquals(x[1][2][9], 9)
@@ -90,7 +90,7 @@ return {
 		unitTest:assertEquals(x[1][2][4], 1)
 		unitTest:assertEquals(x[1][2][5], 5)
 		unitTest:assertEquals(x[1][2][6], 7)
-		
+
 		x = R:evaluate("B = matrix(c(2, 4, 3, 1, 5, 7), nrow=2, ncol=3)")
 		unitTest:assertEquals(#x[1][2], 6)
 		unitTest:assertEquals(x[1][1][1][1][1], 2)
@@ -111,7 +111,7 @@ return {
 		unitTest:assertEquals(x[1][2][3], 4)
 		unitTest:assertEquals(x[1][2][4], 5)
 		unitTest:assertEquals(x[1][2][5], 3)
-		unitTest:assertEquals(x[1][2][6], 7)	
+		unitTest:assertEquals(x[1][2][6], 7)
 
 		x = R:evaluate("B = matrix(c(2, 4, 3, 1, 5, 7), nrow=2, ncol=3, byrow=FALSE)")
 		unitTest:assertEquals(#x[1][2], 6)
@@ -154,7 +154,7 @@ return {
 		unitTest:assertEquals(x[1][2][4][3], true)
 		unitTest:assertEquals(x[1][2][4][4], false)
 
-		x = R:evaluate("gender <- c(rep('male',2), rep('female', 3)); gender <- factor(gender)") 
+		x = R:evaluate("gender <- c(rep('male',2), rep('female', 3)); gender <- factor(gender)")
 		unitTest:assertEquals(x[1][1][1][1][1], "female", 1)
 		unitTest:assertEquals(x[1][1][1][1][2], "male", 1)
 		unitTest:assertEquals(x[1][2][1], 2)
@@ -165,9 +165,9 @@ return {
 
 		x = R:evaluate("v <- c(1,3,5,8,2,1,3,5,3,5); x <- factor(v)")
 		unitTest:assertEquals(x[1][1][1][1][1], "1", 1)
-		unitTest:assertEquals(x[1][1][1][1][2], "2", 1) 
+		unitTest:assertEquals(x[1][1][1][1][2], "2", 1)
 		unitTest:assertEquals(x[1][1][1][1][3], "3", 1)
-		unitTest:assertEquals(x[1][1][1][1][4], "5", 1) 
+		unitTest:assertEquals(x[1][1][1][1][4], "5", 1)
 		unitTest:assertEquals(x[1][1][1][1][5], "8", 1)
 		unitTest:assertEquals(x[1][2][1], 1)
 		unitTest:assertEquals(x[1][2][2], 3)
@@ -180,10 +180,10 @@ return {
 		unitTest:assertEquals(x[1][2][9], 3)
 		unitTest:assertEquals(x[1][2][10], 4)
 
-		x = R:evaluate("n <- c(2, 3, 5); s <- c('aa', 'bb', 'cc'); b <- c(TRUE, FALSE, TRUE); df <- data.frame(n, s, b)")		
+		x = R:evaluate("n <- c(2, 3, 5); s <- c('aa', 'bb', 'cc'); b <- c(TRUE, FALSE, TRUE); df <- data.frame(n, s, b)")
 		unitTest:assertEquals(x[1][1][1][1][1], "n", 1)
 		unitTest:assertEquals(x[1][1][1][1][2], "s", 1)
-		unitTest:assertEquals(x[1][1][1][1][3], "b", 1)		
+		unitTest:assertEquals(x[1][1][1][1][3], "b", 1)
 		unitTest:assertEquals(x[1][2][1][1], 2)
 		unitTest:assertEquals(x[1][2][1][2], 3)
 		unitTest:assertEquals(x[1][2][1][3], 5)
@@ -201,12 +201,12 @@ return {
 		local error_func = function()
 			R:evaluate("x = 2 + v")
 		end
-		unitTest:assertError(error_func, "[RServe] Error: objeto 'v' não encontrado", 1)
-		
+		unitTest:assertError(error_func, "[RServe] Error: object 'v' not found", 1)
+
 		error_func = function()
-			R:evaluate("x <- 1:10; y <- if (x < 5 ) 0 else 1")		
+			R:evaluate("x <- 1:10; y <- if (x < 5 ) 0 else 1")
 		end
-		unitTest:assertError(error_func, "[RServe] Warning: a condição tem comprimento > 1 e somente o primeiro elemento será usado", 1)
+		unitTest:assertError(error_func, "[RServe] Warning: the condition has length > 1 and only the first element will be used", 1)
 
 	end,
 
