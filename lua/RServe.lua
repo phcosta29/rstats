@@ -18,8 +18,7 @@ RServe_ = {
 		if type(expression) ~= "string" then
 			incompatibleTypeError(1, "string", expression)
 		end
-		luarserveevaluate(self.host, self.port, "Sys.setenv(LANG='en')")
-		local result = luarserveevaluate(self.host, self.port, "tryCatch({"..expression.."}, warning = function(war){return(list(war,0))}, error = function(err){return(list(err,1))})")
+		local result = luarserveevaluate(self.host, self.port, "Sys.setenv(LANG='en'); tryCatch({"..expression.."}, warning = function(war){return(list(war,0))}, error = function(err){return(list(err,1))})")
 		if result[1] then
 			if result[1][1] and type(result[1][1]) ~= "number" and type(result[1][1]) ~= "string" and type(result[1][1]) ~= "boolean" then
 				if result[1][1][3] and type(result[1][1][3]) ~= "number" and type(result[1][1][3]) ~= "string" and type(result[1][1][3]) ~= "boolean" then
