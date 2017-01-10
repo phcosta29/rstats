@@ -124,7 +124,7 @@ local function parsesexp(sexp)
 		sexpexps[sexpcounter] = att
 		sexpcounter = sexpcounter + 1
 	end
-	local content = string.sub(sexp, token, sexpend
+	local content = string.sub(sexp, token, sexpend)
 	token = sexpend + 1
 	local data
 	if header.exptype == 0 the
