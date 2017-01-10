@@ -127,7 +127,7 @@ local function parsesexp(sexp)
 	local content = string.sub(sexp, token, sexpend)
 	token = sexpend + 1
 	local data
-	if header.exptype == 0 the
+	if header.exptype == 0 then
 		data = "XT_NULL"
 	elseif header.exptype == 3 or header.exptype == 19 then
 		data = vstruct.read(#content .. "*s", content)
