@@ -125,32 +125,32 @@ local function parsesexp(sexp)
 		sexpcounter = sexpcounter + 1
 	end
 	local content = string.sub(sexp, token, sexpend
-		token = sexpend + 1
-		local data
-		if header.exptype == 0 the
-			data = "XT_NULL"
-		elseif header.exptype == 3 or header.exptype == 19 then
-			data = vstruct.read(#content .. "*s", content)
-		elseif header.exptype == 16 or header.exptype == 21 or header.exptype == 23 or header.exptype == 20 or header.exptype == 22 then
-			data = parsesexp(content)
-		elseif header.exptype == 32 then
-			local len = #content / 4
-			data = vstruct.read(len .. "*u4", content)
-		elseif header.exptype == 33 then
-			local len = #content / 8
-			data = vstruct.read(len .. "*f8", content)
-		elseif header.exptype == 34 then
-			data = splitstring(content, string.char(0))
-		elseif header.exptype == 36 then
-			local len = vstruct.read("u4", string.sub(content, 1, 4))[1]
-			data = vstruct.read(len .. "*b1", string.sub(content, 5))
-		elseif header.exptype == 48 then
-			data = "XT_UNKNOWN"
-		else
-			return("ERROR: unknown QAP1 expression type:" .. header.exptype)
-		end
-		sexpexps[sexpcounter] = data
-		sexpcounter = sexpcounter + 1
+	token = sexpend + 1
+	local data
+	if header.exptype == 0 the
+		data = "XT_NULL"
+	elseif header.exptype == 3 or header.exptype == 19 then
+		data = vstruct.read(#content .. "*s", content)
+	elseif header.exptype == 16 or header.exptype == 21 or header.exptype == 23 or header.exptype == 20 or header.exptype == 22 then
+		data = parsesexp(content)
+	elseif header.exptype == 32 then
+		local len = #content / 4
+		data = vstruct.read(len .. "*u4", content)
+	elseif header.exptype == 33 then
+		local len = #content / 8
+		data = vstruct.read(len .. "*f8", content)
+	elseif header.exptype == 34 then
+		data = splitstring(content, string.char(0))
+	elseif header.exptype == 36 then
+		local len = vstruct.read("u4", string.sub(content, 1, 4))[1]
+		data = vstruct.read(len .. "*b1", string.sub(content, 5))
+	elseif header.exptype == 48 then
+		data = "XT_UNKNOWN"
+	else
+		return("ERROR: unknown QAP1 expression type:" .. header.exptype)
+	end
+	sexpexps[sexpcounter] = data
+	sexpcounter = sexpcounter + 1
 	until token > #sexp
 	return(sexpexps)
 end
