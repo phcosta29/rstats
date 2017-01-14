@@ -37,7 +37,7 @@ return {
 		local error_func = function()
 			R:evaluate(2)
 		end
-		unitTest:assertError(error_func, incompatibleTypeMsg(1, "string", 2)
+		unitTest:assertError(error_func, incompatibleTypeMsg(1, "string", 2))
 
 		error_func = function()
 			R:evaluate("x = 2 + v")
