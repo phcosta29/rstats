@@ -25,7 +25,16 @@ return {
 			RServe{port = 6311}
 		end
 		unitTest:assertError(error_func, defaultValueMsg("port", 6311))
+		
+		error_func = function()
+			R:evaluate("x = 2 + v")
+		end
+		unitTest:assertError(error_func, "[RServe] Error: object 'v' not found", 1)
 
+		error_func = function()
+			R:evaluate("x <- 1:10; y <- if (x < 5 ) 0 else 1")
+		end
+		unitTest:assertError(error_func, "[RServe] Warning: the condition has length > 1 and only the first element will be used", 1)
 		--error_func = function()
 			--RServe{port = 987654}
 		--end
