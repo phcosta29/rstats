@@ -27,7 +27,7 @@ return {
 		unitTest:assertError(error_func, defaultValueMsg("port", 6311))
 
 		error_func = function()
-			R:evaluate("x = 2 + v")
+			local R:evaluate("x = 2 + v")
 		end
 		unitTest:assertError(error_func, "[RServe] Error: object 'v' not found", 1)
 
