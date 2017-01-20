@@ -57,7 +57,7 @@ RServe_ = {
 				expressionR = expressionR..expression[pos].."))"
 			end
 		end
-		local result = self.evaluate(expressionR)
+		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
 	--- Execute an R command. It returns an error message or a value.
@@ -78,7 +78,7 @@ RServe_ = {
 				expressionR = expressionR..expression[pos].."))"
 			end
 		end
-		local result = self.evaluate(expressionR)
+		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end
 }
