@@ -48,13 +48,12 @@ RServe_ = {
 	mean = function(self, expression)
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
-		end		
-		local pos
+		end
 		local expressionR = "mean(c("
 		for pos = 1, #expression do
 			if pos ~= #expression then
 				expressionR = expressionR..expression[pos]..", "
-			else 
+			else
 				expressionR = expressionR..expression[pos].."))"
 			end
 		end
@@ -90,12 +89,11 @@ RServe_ = {
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
-		local pos
 		local expressionR = "sd(c("
 		for pos = 1, #expression do
 			if pos ~= #expression then
 				expressionR = expressionR..expression[pos]..", "
-			else 
+			else
 				expressionR = expressionR..expression[pos].."))"
 			end
 		end
