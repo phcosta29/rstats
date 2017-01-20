@@ -16,7 +16,7 @@ return {
 		local x = R:evaluate("x = 2")
 		unitTest:assertEquals(#x[1][1], 1)
 		unitTest:assertEquals(x[1][1][1], 2)
-		
+
 		x = R:evaluate("rnorm(100)")
 		unitTest:assertEquals(#x[1][1], 100)
 
