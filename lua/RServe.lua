@@ -44,7 +44,7 @@ RServe_ = {
 	-- @arg expression is a table. The expression must be converted to a string and passed to R.
 	-- @usage import ("rstats")
 	-- R = RServe{}
-	-- R:mean{1,2,3,4}
+	-- R:mean{1,2,3,4,5}
 	mean = function(self, expression)
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
@@ -65,7 +65,7 @@ RServe_ = {
 	-- @arg expression is a table. The expression must be converted to a string and passed to R.
 	-- @usage import ("rstats")
 	-- R = RServe{}
-	-- R:sd{1,2,3,4}
+	-- R:sd{1,2,3,4,5}
 	sd = function(self, expression)
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
