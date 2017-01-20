@@ -39,9 +39,9 @@ RServe_ = {
 			return result
 		end
 	end,
-	--- Execute an R command. It returns an error message or a value.
+	--- Execute an R command. It returns a value.
 	-- if an entry is of an incompatible type returns with error.
-	-- @arg expression is a table. The expression must be converted to a string and passed to R.
+	-- @arg expression a table of numbers.
 	-- @usage import ("rstats")
 	-- R = RServe{}
 	-- R:mean{1,2,3,4,5}
@@ -60,9 +60,9 @@ RServe_ = {
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
-	--- Execute an R command. It returns an error message or a value.
+	--- Execute an R command. It returns a value.
 	-- if an entry is of an incompatible type returns with error.
-	-- @arg expression is a table. The expression must be converted to a string and passed to R.
+	-- @arg expression a table of numbers.
 	-- @usage import ("rstats")
 	-- R = RServe{}
 	-- R:sd{1,2,3,4,5}
