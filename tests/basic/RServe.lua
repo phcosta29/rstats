@@ -3,18 +3,20 @@ return {
 		local R = RServe()
 		unitTest:assertType(R, "RServe")
 	end,
+
 	luarserveevaluate = function(unitTest)
 		local R = RServe{}
 		local x = R:evaluate("x = 2")
 		unitTest:assertEquals(#x[1][1], 1)
 		unitTest:assertEquals(x[1][1][1], 2)
 	end,
+
 	evaluate = function(unitTest)
 		local R = RServe{}
 		local x = R:evaluate("x = 2")
 		unitTest:assertEquals(#x[1][1], 1)
 		unitTest:assertEquals(x[1][1][1], 2)
-
+		
 		x = R:evaluate("rnorm(100)")
 		unitTest:assertEquals(#x[1][1], 100)
 
@@ -196,6 +198,19 @@ return {
 		unitTest:assertEquals(#x[1][2][20][1], 5)
 		unitTest:assertEquals(#x[1][2][20][2], 5)
 	end,
+
+	mean = function(unitTest)
+		local R = RServe{}
+		local x = R:mean{1,2,3,4,5,6,7,8,9,10}
+		unitTest:assertEquals(x, 5.5)
+	end,
+
+	sd = function(unitTest)
+		local R = RServe{}
+		local x = R:sd{1,2,3,4,5,6,7,8,9,10}
+		unitTest:assertEquals(x, 3.02765, 0.01)
+	end,
+
 	__tostring = function(unitTest)
 		unitTest:assertEquals(tostring(RServe{}), [[host  string [localhost]
 port  number [6311]

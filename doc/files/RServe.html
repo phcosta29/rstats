@@ -117,7 +117,7 @@
 								
 									<tr>
 										<td class="name" nowrap><a href="#evaluate">evaluate</a>&nbsp;
-<td class="summary">Returns an error message or a value.</td>
+<td class="summary">Execute an R command.</td>
 									</tr>
 								
 							
@@ -130,8 +130,22 @@
 							
 								
 									<tr>
+										<td class="name" nowrap><a href="#mean">mean</a>&nbsp;
+<td class="summary">Execute an R command.</td>
+									</tr>
+								
+							
+								
+									<tr>
 										<td class="name" nowrap><a href="#RServe">RServe</a>&nbsp;
-<td class="summary">Estabelece porta e host para comunicação com R.</td>
+<td class="summary">Establishes host and port for communication with R.</td>
+									</tr>
+								
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#sd">sd</a>&nbsp;
+<td class="summary">Execute an R command.</td>
 									</tr>
 								
 							
@@ -162,7 +176,7 @@
 
 <span class="description">
 
-Returns an error message or a value. if an entry is of an incompatible type returns with error.</span>
+Execute an R command. It returns an error message or a value. if an entry is of an incompatible type returns with error.</span>
 
 
 
@@ -187,7 +201,7 @@ Returns an error message or a value. if an entry is of an incompatible type retu
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
 <span class="id">R</span> = <span class="function">RServe</span>{}
-<span class="id">R</span>:<span class="function">evaluate</span>(<span class="string">"x=2"</span>) </code></pre>
+<span class="id">R</span>:<span class="function">evaluate</span>(<span class="string">"x = 4"</span>)</code></pre>
 
 
 
@@ -245,7 +259,7 @@ Establishes connection with R and returns value. if an entry is of an incompatib
 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
-<span class="function">luarserveevaluate</span>(<span class="string">"localhost"</span>, <span class="number">6311</span>, <span class="string">"x=2"</span>) </code></pre>
+<span class="function">luarserveevaluate</span>(<span class="string">"localhost"</span>, <span class="number">6311</span>, <span class="string">"x=2"</span>)</code></pre>
 
 
 
@@ -255,6 +269,104 @@ Establishes connection with R and returns value. if an entry is of an incompatib
 
 						    	
 							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="mean">
+
+	</a><strong>mean</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">
+
+Execute an R command. It returns an error message or a value. if an entry is of an incompatible type returns with error.<br><br></span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: is a table. The expression must be converted to a string and passed to R.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
+<span class="id">R</span> = <span class="function">RServe</span>{}
+<span class="id">R</span>:<span class="function">mean</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>}</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="sd">
+
+	</a><strong>sd</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">
+
+Execute an R command. It returns an error message or a value. if an entry is of an incompatible type returns with error.<br><br></span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: is a table. The expression must be converted to a string and passed to R.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
+<span class="id">R</span> = <span class="function">RServe</span>{}
+<span class="id">R</span>:<span class="function">sd</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>}</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
 							
 						</dl>
 					
