@@ -70,7 +70,7 @@ RServe_ = {
 		local expressionR = vectorToString("sd", expression)
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
-	end		
+	end
 }
 metaTableRServe_ = {
 	__index = RServe_,
