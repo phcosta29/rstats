@@ -5,6 +5,10 @@ local QAP1_HEADER_FORMAT = "4*u4"
 local QAP1_PARAMETER_HEADER_FORMAT = "u1 u3"
 local QAP1_SEXP_HEADER_TYPE_FORMAT = "[1 | b2 u6]"
 local QAP1_SEXP_HEADER_LEN_FORMAT = "u3"
+local function vectorToString(func, expression)
+	local expressionR = func.."(c("..table.concat(expression, ", ").."))"
+	return expressionR
+end
 RServe_ = {
 	type_ = "RServe",
 	--- Execute an R command. It returns an error message or a value.
@@ -44,19 +48,12 @@ RServe_ = {
 	-- @arg expression a table of numbers.
 	-- @usage import ("rstats")
 	-- R = RServe{}
-	-- R:mean{1,2,3,4,5}
+	-- R:mean{1,2,3,4,5,6,7,8,9,10} -- 5.5
 	mean = function(self, expression)
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
-		local expressionR = "mean(c("
-		for pos = 1, #expression do
-			if pos ~= #expression then
-				expressionR = expressionR..expression[pos]..", "
-			else
-				expressionR = expressionR..expression[pos].."))"
-			end
-		end
+		local expressionR = vectorToString("mean", expression)
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
@@ -65,22 +62,15 @@ RServe_ = {
 	-- @arg expression a table of numbers.
 	-- @usage import ("rstats")
 	-- R = RServe{}
-	-- R:sd{1,2,3,4,5}
+	-- R:sd{1,2,3,4,5,6,7,8,9,10} -- 3.02765
 	sd = function(self, expression)
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
-		local expressionR = "sd(c("
-		for pos = 1, #expression do
-			if pos ~= #expression then
-				expressionR = expressionR..expression[pos]..", "
-			else
-				expressionR = expressionR..expression[pos].."))"
-			end
-		end
+		local expressionR = vectorToString("sd", expression)
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
-	end
+	end		
 }
 metaTableRServe_ = {
 	__index = RServe_,
