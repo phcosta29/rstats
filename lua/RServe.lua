@@ -57,27 +57,8 @@ RServe_ = {
 				expressionR = expressionR..expression[pos].."))"
 			end
 		end
-		local result = luarserveevaluate(self.host, self.port, "Sys.setenv(LANG='en'); tryCatch({"..expressionR.."}, warning = function(war){return(list(war,0))}, error = function(err){return(list(err,1))})")
-		if result[1] then
-			if result[1][1] and type(result[1][1]) ~= "number" and type(result[1][1]) ~= "string" and type(result[1][1]) ~= "boolean" then
-				if result[1][1][3] and type(result[1][1][3]) ~= "number" and type(result[1][1][3]) ~= "string" and type(result[1][1][3]) ~= "boolean" then
-					if result[1][1][3][1] == 1 then
-						return customError("[RServe] Error: "..result[1][1][2][1][1])
-					else if result[1][1][3][1] == 0 then
-						return customWarning("[RServe] Warning: "..result[1][1][2][1][1])
-					else
-						return result[1][1][1]
-						end
-					end
-				else
-					return result[1][1][1]
-				end
-			else
-				return result[1][1][1]
-			end
-		else
-			return result[1][1][1]
-		end
+		local result = self.evaluate(expressionR)
+		return result[1][1][1]
 	end,
 	--- Execute an R command. It returns an error message or a value.
 	-- if an entry is of an incompatible type returns with error.
@@ -97,27 +78,8 @@ RServe_ = {
 				expressionR = expressionR..expression[pos].."))"
 			end
 		end
-		local result = luarserveevaluate(self.host, self.port, "Sys.setenv(LANG='en'); tryCatch({"..expressionR.."}, warning = function(war){return(list(war,0))}, error = function(err){return(list(err,1))})")
-		if result[1] then
-			if result[1][1] and type(result[1][1]) ~= "number" and type(result[1][1]) ~= "string" and type(result[1][1]) ~= "boolean" then
-				if result[1][1][3] and type(result[1][1][3]) ~= "number" and type(result[1][1][3]) ~= "string" and type(result[1][1][3]) ~= "boolean" then
-					if result[1][1][3][1] == 1 then
-						return customError("[RServe] Error: "..result[1][1][2][1][1])
-					else if result[1][1][3][1] == 0 then
-						return customWarning("[RServe] Warning: "..result[1][1][2][1][1])
-					else
-						return result[1][1][1]
-						end
-					end
-				else
-					return result[1][1][1]
-				end
-			else
-				return result[1][1][1]
-			end
-		else
-			return result[1][1][1]
-		end
+		local result = self.evaluate(expressionR)
+		return result[1][1][1]
 	end
 }
 metaTableRServe_ = {
