@@ -5,8 +5,8 @@ local QAP1_HEADER_FORMAT = "4*u4"
 local QAP1_PARAMETER_HEADER_FORMAT = "u1 u3"
 local QAP1_SEXP_HEADER_TYPE_FORMAT = "[1 | b2 u6]"
 local QAP1_SEXP_HEADER_LEN_FORMAT = "u3"
-local function vectorToString(func, expression)
-	local expressionR = func.."(c("..table.concat(expression, ", ").."))"
+local function vectorToString(expression)
+	local expressionR = "c("..table.concat(expression, ", ")..")"
 	return expressionR
 end
 RServe_ = {
@@ -53,7 +53,7 @@ RServe_ = {
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
-		local expressionR = vectorToString("mean", expression)
+		local expressionR = "mean("..vectorToString(expression)..")"
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
@@ -67,7 +67,7 @@ RServe_ = {
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
-		local expressionR = vectorToString("sd", expression)
+		local expressionR = "sd("..vectorToString(expression)..")"
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end
