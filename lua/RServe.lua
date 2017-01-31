@@ -71,7 +71,7 @@ RServe_ = {
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
-	--- It returns the linear regression of a table of vectors computed in R.
+	--- It returns the linear regression of a data frame computed in R.
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression a data frame.
 	-- @usage import ("rstats")
