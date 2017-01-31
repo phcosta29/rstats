@@ -61,5 +61,12 @@ return {
 			R:sd(2)
 		end
 		unitTest:assertError(error_func, incompatibleTypeMsg(1, "table", 2))
+	end,
+	lm = function(unitTest)
+		local R = RServe{}
+		local error_func = function()
+			R:lm(2)
+		end
+		unitTest:assertError(error_func, incompatibleTypeMsg(1, "table", 2))
 	end
 }
