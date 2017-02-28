@@ -12,7 +12,7 @@ end
 RServe_ = {
 	type_ = "RServe",
 	--- Execute an R command. It returns an error message or a value.
-	-- if an entry is of an incompatible type returns with error.s
+	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression The expression must be passed to R.
 	-- @usage import ("rstats")
 	-- R = RServe{}
