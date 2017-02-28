@@ -87,17 +87,17 @@ RServe_ = {
 		local str, stri, df, sumResponses, sumTerms
 		while i <= resp do
 			local c = vectorToString(expression.data[expression.response[i]])
-			if i == 1 then 
+			if i == 1 then
 				str = expression.response[i].." <- "..c..";"
 			else
 				str = str..expression.response[i].." <- "..c..";"
-			end			
+			end
 			i = i + 1
 		end
 		i = term
 		while i > 0 do
 			local t = vectorToString(expression.data[expression.terms[i]])
-			if i == term then			
+			if i == term then
 				stri = expression.terms[i].." <- "..t..";"
 			else
 				stri = stri..expression.terms[i].." <- "..t..";"
@@ -106,7 +106,7 @@ RServe_ = {
 		end
 		i = 1
 		while i <= resp do
-			if i == 1 then			
+			if i == 1 then
 				df = expression.response[i].." = "..expression.response[i]..", "
 			else
 				df = df..expression.response[i].." = "..expression.response[i]..", "
@@ -115,7 +115,7 @@ RServe_ = {
 		end
 		i = term
 		while i > 0 do
-			if i > 1 then 
+			if i > 1 then
 				df = df..expression.terms[i].." = "..expression.terms[i]..", "
 			else
 				df = df..expression.terms[i].." = "..expression.terms[i].."); result = lm(formula = "
@@ -124,7 +124,7 @@ RServe_ = {
 		end
 		i = 1
 		while i <= resp do
-			if i == 1 then			
+			if i == 1 then
 				if i ~= resp then
 					sumResponses = expression.response[i].." + "
 				else
@@ -141,13 +141,13 @@ RServe_ = {
 		end
 		i = 1
 		while i <= term do
-			if i == 1 then			
+			if i == 1 then
 				if i ~= term then
 					sumTerms = expression.terms[i].." + "
 				else
 					sumTerms = expression.terms[i]
 				end
-			else			
+			else
 				if i ~= term then
 					sumTerms = sumTerms..expression.terms[i].." + "
 				else
