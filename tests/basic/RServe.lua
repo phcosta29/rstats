@@ -214,7 +214,7 @@ return {
 	lm = function(unitTest)
 		local R = RServe{}
 		local data = DataFrame{ctl = {4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14}, trt = {4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
-		local x = R:lm{data = data, response = {"ctl"}, terms = {"weight", "trt"}}
+		local x = R:lm{data = data, response = "ctl", terms = {"weight", "trt"}}
 		unitTest:assertEquals(x[1], 6.2664, 0.0001)
 		unitTest:assertEquals(x[2], 0.0647, 0.0001)
 		unitTest:assertEquals(x[3], -0.3329, 0.0001)
