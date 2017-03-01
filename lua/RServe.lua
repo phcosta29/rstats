@@ -76,25 +76,15 @@ RServe_ = {
 	-- @arg expression a data frame.
 	-- @usage import ("rstats")
 	-- R = RServe{}
-	-- R:lm{data = {ctl = {4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14}, trt = {4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69}, weight = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14, 4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}}, response = {"ctl"}, terms = {"weight", "trt"}} -- 5.6221, 0.2961, -0.4345
+	-- R:lm{data = {ctl = {4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14}, trt = {4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69}, weight = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14, 4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}}, response = "ctl", terms = {"weight", "trt"}} -- 5.6221, 0.2961, -0.4345
 	lm = function(self, expression)
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
-		local resp = #expression.response
 		local term = #expression.terms
-		local i = 1
-		local str, stri, df, sumResponses, sumTerms
-		while i <= resp do
-			local c = vectorToString(expression.data[expression.response[i]])
-			if i == 1 then
-				str = expression.response[i].." <- "..c..";"
-			else
-				str = str..expression.response[i].." <- "..c..";"
-			end
-			i = i + 1
-		end
-		i = term
+		local stri, df, sumTerms
+		local str = vectorToString(expression.data[expression.response])
+		local i = term
 		while i > 0 do
 			local t = vectorToString(expression.data[expression.terms[i]])
 			if i == term then
@@ -104,15 +94,7 @@ RServe_ = {
 			end
 			i = i - 1
 		end
-		i = 1
-		while i <= resp do
-			if i == 1 then
-				df = expression.response[i].." = "..expression.response[i]..", "
-			else
-				df = df..expression.response[i].." = "..expression.response[i]..", "
-			end
-			i = i + 1
-		end
+		df = expression.response.." = "..expression.response..", "
 		i = term
 		while i > 0 do
 			if i > 1 then
@@ -121,23 +103,6 @@ RServe_ = {
 				df = df..expression.terms[i].." = "..expression.terms[i].."); result = lm(formula = "
 			end
 			i = i - 1
-		end
-		i = 1
-		while i <= resp do
-			if i == 1 then
-				if i ~= resp then
-					sumResponses = expression.response[i].." + "
-				else
-					sumResponses = expression.response[i]
-				end
-			else
-				if i ~= resp then
-					sumResponses = sumResponses..expression.response[i].." + "
-				else
-					sumResponses = sumResponses..expression.response[i]
-				end
-			end
-			i = i + 1
 		end
 		i = 1
 		while i <= term do
@@ -156,7 +121,7 @@ RServe_ = {
 			end
 			i = i + 1
 		end
-		local result = self:evaluate(str.." "..stri.."; df = data.frame("..df..sumResponses.." ~ "..sumTerms..", data = df)")
+		local result = self:evaluate(expression.response.." <- "..str.."; "..stri.."; df = data.frame("..df..expression.response.." ~ "..sumTerms..", data = df)")
 		local resultTable = {result[1][2][2][1], result[1][2][2][2], result[1][2][2][3]}
 		return resultTable
 	end
