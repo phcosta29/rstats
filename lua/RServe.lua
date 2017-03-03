@@ -107,16 +107,12 @@ RServe_ = {
 		i = 1
 		while i <= term do
 			if i == 1 then
-				if i ~= term then
-					sumTerms = expression.terms[i].." + "
-				else
-					sumTerms = expression.terms[i]
-				end
+				sumTerms = expression.terms[i].." + "
 			else
-				if i ~= term then
-					sumTerms = sumTerms..expression.terms[i].." + "
-				else
+				if i == term then
 					sumTerms = sumTerms..expression.terms[i]
+				else
+					sumTerms = sumTerms..expression.terms[i].." + "
 				end
 			end
 			i = i + 1
