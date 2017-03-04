@@ -212,7 +212,7 @@ return {
 		local x = R:lm{data = data, response = "ctl", terms = {"weight", "trt", "gfg"}}
 		unitTest:assertEquals(x[1], -0.049973, 0.001)
 		unitTest:assertEquals(x[2], 0.000062, 0.0001)
-		unitTest:assertEquals(x[3], 0.004117, 0.000001)
+		unitTest:assertEquals(x[3], 0.004117, 0.0001)
 	end,
 	__tostring = function(unitTest)
 		unitTest:assertEquals(tostring(RServe{}), [[host  string [localhost]
