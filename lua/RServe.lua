@@ -66,9 +66,6 @@ RServe_ = {
 	-- R = RServe{}
 	-- R:mean{1,2,3,4,5,6,7,8,9,10} -- 5.5
 	mean = function(self, expression)
-		if type(expression) == "CellularSpace" then
-			expression = convertionTypes(expression)
-		end
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
@@ -83,9 +80,6 @@ RServe_ = {
 	-- R = RServe{}
 	-- R:sd{1,2,3,4,5,6,7,8,9,10} -- 3.02765
 	sd = function(self, expression)
-		if type(expression) == "CellularSpace" then
-			expression = convertionTypes(expression)
-		end
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
@@ -153,11 +147,11 @@ RServe_ = {
 	-- R = RServe{}
 	-- R:pca{data = {ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}, terms = {"ctl", "trt", "weight"}} -- 1.2342, 0.9735, 0.7274
 	pca = function(self, expression)
-		if type(expression) == "CellularSpace" then
-			expression = convertionTypes(expression)
-		end
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
+		end
+		if type(expression) == "CellularSpace" then
+			expression = convertionTypes(expression)
 		end
 		local term = #expression.terms
 		local str, df, i, j, resultTable
@@ -198,11 +192,11 @@ RServe_ = {
 	-- R = RServe{}
 	-- R:anova{data = {ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}, terms = {"ctl", "trt", "weight"}, typeAnova = "type", factors = {"y", "A", "B", "C", "D"}} -- results
 	anova = function(self, expression)
-		if type(expression) == "CellularSpace" then
-			expression = convertionTypes(expression)
-		end
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
+		end
+		if type(expression) == "CellularSpace" then
+			expression = convertionTypes(expression)
 		end
 		local term = #expression.terms
 		local tam = #expression
