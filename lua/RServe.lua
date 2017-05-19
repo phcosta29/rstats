@@ -6,8 +6,24 @@ local QAP1_PARAMETER_HEADER_FORMAT = "u1 u3"
 local QAP1_SEXP_HEADER_TYPE_FORMAT = "[1 | b2 u6]"
 local QAP1_SEXP_HEADER_LEN_FORMAT = "u3"
 local function vectorToString(expression)
-	local expressionR = "c("..table.concat(expression, ", ")..")"
+	local expressionR = table.concat{"c(", table.concat(expression, ", "), ")"}
 	return expressionR
+end
+local function convertionTypes(expression)
+	local df = {}
+	forEachElement(expression.cells[1], function(idx)
+    		if belong(idx, {"FID", "cObj_", "past"}) then 
+			return 
+		end
+	df[idx] = {}
+	end)
+	forEachCell(expression, function(cell)
+    		forEachElement(df, function(idx, values)
+        		table.insert(values, cell[idx])
+    		end)
+	end)
+	df = DataFrame(df)
+	return df
 end
 RServe_ = {
 	type_ = "RServe",
@@ -50,10 +66,13 @@ RServe_ = {
 	-- R = RServe{}
 	-- R:mean{1,2,3,4,5,6,7,8,9,10} -- 5.5
 	mean = function(self, expression)
+		if type(expression) == "CellularSpace" then
+			expression = convertionTypes(expression)
+		end
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
-		local expressionR = "mean("..vectorToString(expression)..")"
+		local expressionR = table.concat{"mean(", vectorToString(expression), ")"}
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
@@ -64,10 +83,13 @@ RServe_ = {
 	-- R = RServe{}
 	-- R:sd{1,2,3,4,5,6,7,8,9,10} -- 3.02765
 	sd = function(self, expression)
+		if type(expression) == "CellularSpace" then
+			expression = convertionTypes(expression)
+		end
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
-		local expressionR = "sd("..vectorToString(expression)..")"
+		local expressionR = table.concat{"sd(", vectorToString(expression), ")"}
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
@@ -81,6 +103,9 @@ RServe_ = {
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
+		if type(expression.data) == "CellularSpace" then
+			expression.data = convertionTypes(expression.data)
+		end
 		local term = #expression.terms
 		local stri, df, sumTerms
 		local str = vectorToString(expression.data[expression.response])
@@ -88,38 +113,134 @@ RServe_ = {
 		while i > 0 do
 			local t = vectorToString(expression.data[expression.terms[i]])
 			if i == term then
-				stri = expression.terms[i].." <- "..t..";"
+				stri = table.concat{expression.terms[i], " <- ", t, ";"}
 			else
-				stri = stri..expression.terms[i].." <- "..t..";"
+				stri = table.concat{stri, expression.terms[i], " <- ", t, ";"}
 			end
 			i = i - 1
 		end
-		df = expression.response.." = "..expression.response..", "
+		df = table.concat{expression.response, " = ", expression.response, ", "}
 		i = term
 		while i > 0 do
 			if i > 1 then
-				df = df..expression.terms[i].." = "..expression.terms[i]..", "
+				df = table.concat{df, expression.terms[i], " = ", expression.terms[i], ", "}
 			else
-				df = df..expression.terms[i].." = "..expression.terms[i].."); result = lm(formula = "
+				df = table.concat{df, expression.terms[i], " = ", expression.terms[i], "); result = lm(formula = "}
 			end
 			i = i - 1
 		end
 		i = 1
 		while i <= term do
 			if i == 1 then
-				sumTerms = expression.terms[i].." + "
+				sumTerms = table.concat{expression.terms[i], " + "}
 			else
 				if i == term then
-					sumTerms = sumTerms..expression.terms[i]
+					sumTerms = table.concat{sumTerms, expression.terms[i]}
 				else
-					sumTerms = sumTerms..expression.terms[i].." + "
+					sumTerms = table.concat{sumTerms, expression.terms[i], " + "}
 				end
 			end
 			i = i + 1
 		end
-		local result = self:evaluate(expression.response.." <- "..str.."; "..stri.."; df = data.frame("..df..expression.response.." ~ "..sumTerms..", data = df)")
+		local result = self:evaluate(table.concat{expression.response, " <- ", str, "; ", stri, "; df = data.frame(", df, expression.response, " ~ ", sumTerms, ", data = df)"})
 		local resultTable = {result[1][2][2][1], result[1][2][2][2], result[1][2][2][3]}
 		return resultTable
+	end,
+	--- It returns the principal component analysis of a table of vectors computed in R.
+	-- if an entry is of an incompatible type returns with error.
+	-- @arg expression a data frame.
+	-- @usage import ("rstats")
+	-- R = RServe{}
+	-- R:pca{data = {ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}, terms = {"ctl", "trt", "weight"}} -- 1.2342, 0.9735, 0.7274
+	pca = function(self, expression)
+		if type(expression) == "CellularSpace" then
+			expression = convertionTypes(expression)
+		end
+		if type(expression) ~= "table" then
+			incompatibleTypeError(1, "table", expression)
+		end
+		local term = #expression.terms
+		local str, df, i, j, resultTable
+		local rotation = {}
+		i = 1
+		while i <= term do
+			if i == 1 then
+				str = table.concat{expression.terms[i], " <- ", vectorToString(expression.data[expression.terms[i]]), "; "}
+				df = table.concat{expression.terms[i], " = ", expression.terms[i], ", "}
+			else
+				str = table.concat{str, expression.terms[i], " <- ", vectorToString(expression.data[expression.terms[i]]), "; "}
+				if i ~= term then
+					df = table.concat{df, expression.terms[i], " = ", expression.terms[i], ", "}
+				else
+					df = table.concat{df, expression.terms[i], " = ", expression.terms[i], "); "}
+				end
+			end
+			i = i + 1
+		end
+		local result = self:evaluate(table.concat{str, "df = data.frame(", df, "log.ir <- log(df[, 1:", term, "]); ir.pca <- prcomp(log.ir, center = TRUE, scale. = TRUE); ir.pca;"})
+		i = 1
+		while i <= term do
+			j = 0
+			rotation[i] = {expression.terms[i],{}}
+			while j <= term do
+				table.insert(rotation[i][2], result[1][2][3][(term * j) + i])
+				j = j + 1
+			end
+			i = i + 1
+		end
+		resultTable = {StandardDeviations = result[1][2][1], Rotation = rotation}
+		return resultTable
+	end,
+	--- It returns the analysis of variance of a table of vectors computed in R.
+	-- if an entry is of an incompatible type returns with error.
+	-- @arg expression a data frame.
+	-- @usage import ("rstats")
+	-- R = RServe{}
+	-- R:anova{data = {ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}, terms = {"ctl", "trt", "weight"}, typeAnova = "type", factors = {"y", "A", "B", "C", "D"}} -- results
+	anova = function(self, expression)
+		if type(expression) == "CellularSpace" then
+			expression = convertionTypes(expression)
+		end
+		if type(expression) ~= "table" then
+			incompatibleTypeError(1, "table", expression)
+		end
+		local term = #expression.terms
+		local tam = #expression
+		local str, df, i, fit
+		i = 1
+		while i <= term do
+			if i == 1 then
+				str = table.concat{expression.terms[i], " <- ", vectorToString(expression.data[expression.terms[i]]), "; "}
+				df = table.concat{expression.terms[i], " = ", expression.terms[i], ", "}
+			else
+				str = table.concat{str, expression.terms[i], " <- ", vectorToString(expression.data[expression.terms[i]]), "; "}
+				if i ~= term then
+					df = table.concat{df, expression.terms[i], " = ", expression.terms[i], ", "}
+				else
+					df = table.concat{df, expression.terms[i], " = ", expression.terms[i], "); "}
+				end
+			end
+			i = i + 1
+		end
+		if expression.typeAnova == "owa" then
+			fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], ",data = df); x = summary(fit); x;"}		
+		else if expression.typeAnova == "rbd" then
+			fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], " + ", expression.factors[3], ",data = df); x = summary(fit); x;"}
+		else if expression.typeAnova == "twfd" then
+			fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], " * ", expression.factors[3], ",data = df); x = summary(fit); x;"}		
+		else if expression.typeAnova == "aoc" then
+			fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], " + ", expression.factors[3], ",data = df); x = summary(fit); x;"}	
+		else if expression.typeAnova == "owf" then
+			fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], " + Error(Subject/", expression.factors[2], "),data = df); x = summary(fit); x;"}
+		else
+			fit = table.concat{"fit <- aov(", expression.factors[1], " ~ (", expression.factors[2], " * ", expression.factors[3], " * ", expression.factors[4], " * ", expression.factors[5], ") + Error(Subject/(", expression.factors[2], " * ", expression.factors[3], ")) + (", expression.factors[4], " * ", expression.factors[5] "),data = df); x = summary(fit); x;"}
+		end
+		end
+		end
+		end
+		end
+		local result = self:evaluate(table.concat{str, "df = data.frame(", df, fit})
+		return result
 	end
 }
 metaTableRServe_ = {
