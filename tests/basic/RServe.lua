@@ -198,21 +198,48 @@ return {
 	end,
 	mean = function(unitTest)
 		local R = RServe{}
-		local x = R:mean{1,2,3,4,5,6,7,8,9,10}
+		local x = R:mean{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 		unitTest:assertEquals(x, 5.5)
 	end,
 	sd = function(unitTest)
 		local R = RServe{}
-		local x = R:sd{1,2,3,4,5,6,7,8,9,10}
+		local x = R:sd{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 		unitTest:assertEquals(x, 3.02765, 0.00001)
 	end,
 	lm = function(unitTest)
 		local R = RServe{}
-		local data = DataFrame{ctl = {4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14}, trt = {4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69}, gfg = {4.16,5.57,5.16,6.08,4.49,4.60,5.14,4.51,5.32,5.13}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
+		local data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, gfg = {4.16, 5.57, 5.16, 6.08, 4.49, 4.60, 5.14, 4.51, 5.32, 5.13}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
 		local x = R:lm{data = data, response = "ctl", terms = {"weight", "trt", "gfg"}}
 		unitTest:assertEquals(x[1], -0.049973, 0.001)
 		unitTest:assertEquals(x[2], 0.000062, 0.0001)
 		unitTest:assertEquals(x[3], 0.004117, 0.0001)
+	end,
+	pca = function(unitTest)
+		local R = RServe{}
+		local data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
+		local x = R:pca{data = data, terms = {"ctl", "trt", "weight"}}
+		unitTest:assertEquals(x.StandardDeviations[1], 1.2342, 0.001)
+		unitTest:assertEquals(x.StandardDeviations[2], 0.9735, 0.001)
+		unitTest:assertEquals(x.StandardDeviations[3], 0.7274, 0.001)
+	end,
+	anova = function(unitTest)
+		local R = RServe{}
+		local data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
+		local x = R:anova{data = data, terms = {"ctl", "trt", "weight"}, typeAnova = "owa", factors = {"ctl", "trt"}}
+		unitTest:assertEquals(x[1][2][2][1][1], 1.0)
+		unitTest:assertEquals(x[1][2][2][1][2], 8.0)
+		unitTest:assertEquals(x[1][2][2][2][1], 0.6409, 0.0001)
+		unitTest:assertEquals(x[1][2][2][2][2], 2.4190, 0.0001)
+		unitTest:assertEquals(x[1][2][2][3][1], 0.6409, 0.0001)
+		unitTest:assertEquals(x[1][2][2][3][2], 0.3023, 0.0001)
+		unitTest:assertEquals(x[1][2][2][4][1], 2.1196, 0.0001)
+		unitTest:assertEquals(x[1][2][2][5][1], 0.1835, 0.0001)
+	end,
+	lm = function(unitTest)
+		local R = RServe{}
+		local data = CellularSpace{file = filePath("amazonia.shp", "base"),}
+		local x = R:lm{data = data, response = "prodes_10", terms = {"distroads", "protected", "distports"}}
+		print(vardump(x))
 	end,
 	__tostring = function(unitTest)
 		unitTest:assertEquals(tostring(RServe{}), [[host  string [localhost]
