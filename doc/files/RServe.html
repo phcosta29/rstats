@@ -13,8 +13,13 @@
 		<div id="container">
 			<div id="product">
 				<div id="product_logo">
-					<a href="http://www.terrame.org">
-					<img src='../img/terrame.png'/><br/></div></a>
+					
+						<a target="_blank" href="https://github.com/pedro-andrade-inpe/rstats">
+					
+					<img src='../img/logo.png'/><br/></div>
+					
+						</a>
+					
 				<div id="product_name"><big><b></b></big></div>
 				<div id="product_description"></div>
 			</div> <!-- id="product" -->
@@ -41,6 +46,18 @@
 	
 		
 	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
 
 	
 
@@ -50,7 +67,19 @@
 	
 	
 		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
 			
+		
+	
 		
 	
 
@@ -60,9 +89,15 @@
 
 	<ul>
 		
+		
+		
+		
+		
+		
 					<li><strong>RServe</strong></li>
 				
 			
+		
 		
 	</ul>
 
@@ -73,16 +108,39 @@
 	
 		
 	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
 
 	
 
 	<ul>
 		
 		
+		
+		
+		
+		
+		
+		
 	</ul>
 
 
 <!-- Examples -->
+
+	
+		<h1><a href="../files/examples.html">Examples</a></h1>
+	
+
 
 
 <!-- Data -->
@@ -116,8 +174,22 @@
 							
 								
 									<tr>
+										<td class="name" nowrap><a href="#anova">anova</a>&nbsp;
+<td class="summary">It returns the analysis of variance of a table of vectors computed in R.</td>
+									</tr>
+								
+							
+								
+									<tr>
 										<td class="name" nowrap><a href="#evaluate">evaluate</a>&nbsp;
 <td class="summary">Execute an R command.</td>
+									</tr>
+								
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#lm">lm</a>&nbsp;
+<td class="summary">It returns the linear regression of a table of vectors computed in R.</td>
 									</tr>
 								
 							
@@ -131,7 +203,14 @@
 								
 									<tr>
 										<td class="name" nowrap><a href="#mean">mean</a>&nbsp;
-<td class="summary">Execute an R command.</td>
+<td class="summary">It returns the arithmetic mean of a vector of values computed in R.</td>
+									</tr>
+								
+							
+								
+									<tr>
+										<td class="name" nowrap><a href="#pca">pca</a>&nbsp;
+<td class="summary">It returns the principal component analysis of a table of vectors computed in R.</td>
 									</tr>
 								
 							
@@ -145,7 +224,7 @@
 								
 									<tr>
 										<td class="name" nowrap><a href="#sd">sd</a>&nbsp;
-<td class="summary">Execute an R command.</td>
+<td class="summary">It returns the standard deviation of a vector of values computed in R.</td>
 									</tr>
 								
 							
@@ -155,12 +234,60 @@
 
 					
 
-					<!--<br/>
-					<br/>-->
-
 					
 						
 						<dl class="function">
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="anova">
+
+	</a><strong>anova</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">
+
+It returns the analysis of variance of a table of vectors computed in R. if an entry is of an incompatible type returns with error.<br><br></span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: a data frame or a CellularSpace.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
+<span class="id">R</span> = <span class="function">RServe</span>{}
+<span class="id">data</span> = <span class="function">DataFrame</span>{<span class="id">ctl</span> = {<span class="number">4.17</span>, <span class="number">5.58</span>, <span class="number">5.18</span>, <span class="number">6.11</span>, <span class="number">4.50</span>, <span class="number">4.61</span>, <span class="number">5.17</span>, <span class="number">4.53</span>, <span class="number">5.33</span>, <span class="number">5.14</span>}, <span class="id">trt</span> = {<span class="number">4.81</span>, <span class="number">4.17</span>, <span class="number">4.41</span>, <span class="number">3.59</span>, <span class="number">5.87</span>, <span class="number">3.83</span>, <span class="number">6.03</span>, <span class="number">4.89</span>, <span class="number">4.32</span>, <span class="number">4.69</span>}, 
+<span class="id">weight</span> = {<span class="number">4.17</span>, <span class="number">5.18</span>, <span class="number">4.50</span>, <span class="number">5.17</span>, <span class="number">5.33</span>, <span class="number">4.81</span>, <span class="number">4.41</span>, <span class="number">5.87</span>, <span class="number">4.89</span>, <span class="number">4.69</span>}}
+<span class="id">R</span>:<span class="function">anova</span>{<span class="id">data</span> = <span class="id">data</span>, <span class="id">terms</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>, <span class="string">"weight"</span>}, <span class="id">typeAnova</span> = <span class="string">"owa"</span>, <span class="id">factors</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>}} <span class="comment">-- 1.0, 8.0, 0.6409, 2.4190, 0.6409, 0.3023, 2.1196, 0.1835</span></code></pre>
+
+
+
+
+</dd>
+
+
+						    	
 							
 									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -176,7 +303,7 @@
 
 <span class="description">
 
-Execute an R command. It returns an error message or a value. if an entry is of an incompatible type returns with error.</span>
+Execute an R command. It returns an error message or a value. if an entry is of an incompatible type returns with error.<br><br></span>
 
 
 
@@ -202,6 +329,56 @@ Execute an R command. It returns an error message or a value. if an entry is of 
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
 <span class="id">R</span> = <span class="function">RServe</span>{}
 <span class="id">R</span>:<span class="function">evaluate</span>(<span class="string">"x = 4"</span>)</code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="lm">
+
+	</a><strong>lm</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">
+
+It returns the linear regression of a table of vectors computed in R. if an entry is of an incompatible type returns with error.<br><br></span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: a data frame or a CellularSpace.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
+<span class="id">R</span> = <span class="function">RServe</span>{}
+<span class="id">data</span> = <span class="function">CellularSpace</span>{<span class="id">file</span> = <span class="id">filePath</span>(<span class="string">"amazonia.shp"</span>, <span class="string">"base"</span>),}
+<span class="id">R</span>:<span class="function">lm</span>{<span class="id">data</span> = <span class="id">data</span>, <span class="id">response</span> = <span class="string">"prodes_10"</span>, <span class="id">terms</span> = {<span class="string">"distroads"</span>, <span class="string">"protected"</span>, <span class="string">"distports"</span>}} <span class="comment">-- 22.4337, -8.7823e-05, -11.9502</span></code></pre>
 
 
 
@@ -283,7 +460,7 @@ Establishes connection with R and returns value. if an entry is of an incompatib
 
 <span class="description">
 
-Execute an R command. It returns an error message or a value. if an entry is of an incompatible type returns with error.<br><br></span>
+It returns the arithmetic mean of a vector of values computed in R. if an entry is of an incompatible type returns with error.<br><br></span>
 
 
 
@@ -293,7 +470,7 @@ Execute an R command. It returns an error message or a value. if an entry is of 
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: is a table. The expression must be converted to a string and passed to R.
+	  <strong>#1</strong>: a table of numbers.
     </li> 
     
   
@@ -308,7 +485,58 @@ Execute an R command. It returns an error message or a value. if an entry is of 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
 <span class="id">R</span> = <span class="function">RServe</span>{}
-<span class="id">R</span>:<span class="function">mean</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>}</code></pre>
+<span class="id">R</span>:<span class="function">mean</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>} <span class="comment">-- 5.5</span></code></pre>
+
+
+
+
+</dd>
+
+
+						    	
+							
+									<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<dt><h2><a name="pca">
+
+	</a><strong>pca</strong>&nbsp;
+
+</h2></dt>
+<dd>
+
+
+<span class="description">
+
+It returns the principal component analysis of a table of vectors computed in R. if an entry is of an incompatible type returns with error.<br><br></span>
+
+
+
+
+<!-- Function arguments -->
+  <h3>Arguments</h3>
+<ul><span class="arg">
+
+    <li>
+	  <strong>#1</strong>: a data frame or a CellularSpace.
+    </li> 
+    
+  
+  </span></ul>
+
+
+
+
+
+
+
+<h3>Usage</h3>
+<pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
+<span class="id">R</span> = <span class="function">RServe</span>{}
+<span class="id">data</span> = <span class="function">DataFrame</span>{<span class="id">ctl</span> = {<span class="number">4.17</span>, <span class="number">5.58</span>, <span class="number">5.18</span>, <span class="number">6.11</span>, <span class="number">4.50</span>, <span class="number">4.61</span>, <span class="number">5.17</span>, <span class="number">4.53</span>, <span class="number">5.33</span>, <span class="number">5.14</span>}, <span class="id">trt</span> = {<span class="number">4.81</span>, <span class="number">4.17</span>, <span class="number">4.41</span>, <span class="number">3.59</span>, <span class="number">5.87</span>, <span class="number">3.83</span>, <span class="number">6.03</span>, <span class="number">4.89</span>, <span class="number">4.32</span>, <span class="number">4.69</span>}, 
+<span class="id">weight</span> = {<span class="number">4.17</span>, <span class="number">5.18</span>, <span class="number">4.50</span>, <span class="number">5.17</span>, <span class="number">5.33</span>, <span class="number">4.81</span>, <span class="number">4.41</span>, <span class="number">5.87</span>, <span class="number">4.89</span>, <span class="number">4.69</span>}}
+<span class="id">R</span>:<span class="function">pca</span>{<span class="id">data</span> = <span class="id">data</span>, <span class="id">terms</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>, <span class="string">"weight"</span>}} <span class="comment">-- 1.2342, 0.9735, 0.7274</span></code></pre>
 
 
 
@@ -333,7 +561,7 @@ Execute an R command. It returns an error message or a value. if an entry is of 
 
 <span class="description">
 
-Execute an R command. It returns an error message or a value. if an entry is of an incompatible type returns with error.<br><br></span>
+It returns the standard deviation of a vector of values computed in R. if an entry is of an incompatible type returns with error.<br><br></span>
 
 
 
@@ -343,7 +571,7 @@ Execute an R command. It returns an error message or a value. if an entry is of 
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: is a table. The expression must be converted to a string and passed to R.
+	  <strong>#1</strong>: a table of numbers.
     </li> 
     
   
@@ -358,7 +586,7 @@ Execute an R command. It returns an error message or a value. if an entry is of 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
 <span class="id">R</span> = <span class="function">RServe</span>{}
-<span class="id">R</span>:<span class="function">sd</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>}</code></pre>
+<span class="id">R</span>:<span class="function">sd</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>} <span class="comment">-- 3.02765</span></code></pre>
 
 
 
@@ -377,7 +605,7 @@ Execute an R command. It returns an error message or a value. if an entry is of 
 			</div> <!-- id="main" -->
 
 			<div id="about">
-				<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+				<p>This webpage was automatically created using <a target="_blank" href="http://www.terrame.org">TerraME</a>.</p>
 			</div> <!-- id="about" -->
 
 		</div> <!-- id="container" -->	

@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+	    
+	    	<title>RServe integration</title>
+	    
+	    <link rel="stylesheet" href="../luadoc.css" type="text/css" />
+		<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+	</head>
+
+	<body>
+		<div id="container">
+			<div id="product">
+				<div id="product_logo">
+					
+						<a target="_blank" href="https://github.com/pedro-andrade-inpe/rstats">
+					
+					<img src='../img/logo.png'/><br/></div>
+					
+						</a>
+					
+				<div id="product_name"><big><b></b></big></div>
+				<div id="product_description"></div>
+			</div> <!-- id="product" -->
+
+			<div id="main">
+				<div id="navigation">
+					<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<h1>rstats</h1>
+<ul>
+	
+		<li><a href="../index.html">Index</a></li>
+	
+</ul>
+
+<!-- Module list -->
+
+
+<!-- Models list -->
+
+	
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+
+	
+
+
+<!-- Types list -->
+
+	
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			
+		
+	
+		
+	
+
+	
+		<h1>Types</h1>
+	
+
+	<ul>
+		
+		
+		
+		
+		
+		
+					<li>
+						<a href="../files/RServe.html">RServe</a>
+					</li>
+				
+			
+		
+		
+	</ul>
+
+
+<!-- Files list -->
+
+	
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+
+	
+
+	<ul>
+		
+		
+		
+		
+		
+		
+		
+		
+	</ul>
+
+
+<!-- Examples -->
+
+	
+		<h1>Examples</h1>
+	
+
+
+
+<!-- Data -->
+
+
+<!-- Font -->
+
+
+
+				</div> <!-- id="navigation" -->
+
+				
+				<div id="content">
+					<h1>Examples</h1>
+					
+						<table class="file_list">
+							<!-- <tr><td colspan="2">Examples</td></tr> -->
+							
+								
+								<tr>
+									<!-- <td class="name"><a href="files/anova.html">anova</a></td> -->
+									
+									
+									<td class="name"><a href = "#anova">anova</a></td>
+									<td class="summary">Implementation of the analysis of variance function.</td>
+								</tr>
+								
+							
+								
+								<tr>
+									<!-- <td class="name"><a href="files/evaluate.html">evaluate</a></td> -->
+									
+									
+									<td class="name"><a href = "#evaluate">evaluate</a></td>
+									<td class="summary">Implementation of evaluate function.</td>
+								</tr>
+								
+							
+								
+								<tr>
+									<!-- <td class="name"><a href="files/lm.html">lm</a></td> -->
+									
+									
+									<td class="name"><a href = "#lm">lm</a></td>
+									<td class="summary">Implementation of the linear regression function.</td>
+								</tr>
+								
+							
+								
+								<tr>
+									<!-- <td class="name"><a href="files/mean.html">mean</a></td> -->
+									
+									
+									<td class="name"><a href = "#mean">mean</a></td>
+									<td class="summary">Implementation of mean function.</td>
+								</tr>
+								
+							
+								
+								<tr>
+									<!-- <td class="name"><a href="files/pca.html">pca</a></td> -->
+									
+									
+									<td class="name"><a href = "#pca">pca</a></td>
+									<td class="summary">Implementation of the principal component analysis function.</td>
+								</tr>
+								
+							
+								
+							
+								
+								<tr>
+									<!-- <td class="name"><a href="files/sd.html">sd</a></td> -->
+									
+									
+									<td class="name"><a href = "#sd">sd</a></td>
+									<td class="summary">Implementation of standard deviation function.</td>
+								</tr>
+								
+							
+						</table>
+					
+					
+					<dl class="function">
+						
+							
+								
+								<dt><h2><a name="anova"><a href = ../../examples/anova.lua >anova </a></h2>
+									
+
+									
+									Implementation of the analysis of variance function. It returns the analysis of variance of a table of vectors computed in R. if an entry is of an incompatible type returns with error.<br><br>
+								</dt>
+							
+
+							
+								<h3>Arguments (global variables)</h3>
+								<ul><span class="arg">
+								
+									<li><strong>expression</strong>: a data frame or a CellularSpace.</li> 
+								
+								</ul>
+							
+						
+							
+								
+								<dt><h2><a name="evaluate"><a href = ../../examples/evaluate.lua >evaluate </a></h2>
+									
+
+									
+									Implementation of evaluate function. Execute an R command. It returns an error message or a value. if an entry is of an incompatible type returns with error.<br><br>
+								</dt>
+							
+
+							
+								<h3>Arguments (global variables)</h3>
+								<ul><span class="arg">
+								
+									<li><strong>expression</strong>: The expression must be passed to R.</li> 
+								
+								</ul>
+							
+						
+							
+								
+								<dt><h2><a name="lm"><a href = ../../examples/lm.lua >lm </a></h2>
+									
+
+									
+									Implementation of the linear regression function. It returns the linear regression of a table of vectors computed in R. if an entry is of an incompatible type returns with error.<br><br>
+								</dt>
+							
+
+							
+								<h3>Arguments (global variables)</h3>
+								<ul><span class="arg">
+								
+									<li><strong>expression</strong>: a data frame or a CellularSpace.</li> 
+								
+								</ul>
+							
+						
+							
+								
+								<dt><h2><a name="mean"><a href = ../../examples/mean.lua >mean </a></h2>
+									
+
+									
+									Implementation of mean function. It returns the arithmetic mean of a vector of values computed in R. if an entry is of an incompatible type returns with error.<br><br>
+								</dt>
+							
+
+							
+								<h3>Arguments (global variables)</h3>
+								<ul><span class="arg">
+								
+									<li><strong>expression</strong>: a table of numbers.</li> 
+								
+								</ul>
+							
+						
+							
+								
+								<dt><h2><a name="pca"><a href = ../../examples/pca.lua >pca </a></h2>
+									
+
+									
+									Implementation of the principal component analysis function. It returns the principal component analysis of a table of vectors computed in R. if an entry is of an incompatible type returns with error.<br><br>
+								</dt>
+							
+
+							
+								<h3>Arguments (global variables)</h3>
+								<ul><span class="arg">
+								
+									<li><strong>expression</strong>: a data frame or a CellularSpace.</li> 
+								
+								</ul>
+							
+						
+							
+
+							
+						
+							
+								
+								<dt><h2><a name="sd"><a href = ../../examples/sd.lua >sd </a></h2>
+									
+
+									
+									Implementation of standard deviation function. It returns the standard deviation of a vector of values computed in R. if an entry is of an incompatible type returns with error.<br><br>
+								</dt>
+							
+
+							
+								<h3>Arguments (global variables)</h3>
+								<ul><span class="arg">
+								
+									<li><strong>expression</strong>: a table of numbers.</li> 
+								
+								</ul>
+							
+						
+					</dl>
+				</div> <!-- id="content" -->
+			</div> <!-- id="main" -->
+
+			<div id="about">
+				<p>This webpage was automatically created using <a target="_blank" href="http://www.terrame.org">TerraME</a>.</p>
+			</div> <!-- id="about" -->
+
+		</div> <!-- id="container" -->	
+	</body>
+</html>
+
