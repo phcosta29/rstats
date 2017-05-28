@@ -82,5 +82,5 @@ return {
 			R:anova(2)
 		end
 		unitTest:assertError(error_func, incompatibleTypeMsg(1, "table", 2))
-	end	
+	end
 }
