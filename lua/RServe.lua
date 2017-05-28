@@ -12,8 +12,8 @@ end
 local function convertionTypes(expression)
 	local df = {}
 	forEachElement(expression.data.cells[1], function(idx)
-		if belong(idx, {"FID", "cObj_", "past"}) then 
-			return 
+		if belong(idx, {"FID", "cObj_", "past"}) then
+			return
 		end
 		df[idx] = {}
 	end)
@@ -217,7 +217,7 @@ RServe_ = {
 			i = i + 1
 		end
 		switch(expression, "typeAnova"):caseof{
-	   		owa = function() fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], ",data = df); x = summary(fit); x;"} end,
+			owa = function() fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], ",data = df); x = summary(fit); x;"} end,
 			rbd = function() fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], " + ", expression.factors[3], ",data = df); x = summary(fit); x;"} end,
 			twfd = function() fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], " * ", expression.factors[3], ",data = df); x = summary(fit); x;"} end,
 			aoc = function() fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], " + ", expression.factors[3], ",data = df); x = summary(fit); x;"} end,
