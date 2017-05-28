@@ -11,17 +11,16 @@ local function vectorToString(expression)
 end
 local function convertionTypes(expression)
 	local df = {}
-	local expressionR = {expression.resposnse}
 	forEachElement(expression.data.cells[1], function(idx)
-    		if belong(idx, {"FID", "cObj_", "past"}) then 
+		if belong(idx, {"FID", "cObj_", "past"}) then 
 			return 
 		end
-	df[idx] = {}
+		df[idx] = {}
 	end)
 	forEachCell(expression.data, function(cell)
-    		forEachElement(df, function(idx, values)
-        		table.insert(values, cell[idx])
-    		end)
+		forEachElement(df, function(idx, values)
+			table.insert(values, cell[idx])
+		end)
 	end)
 	df = DataFrame(df)
 	return df
@@ -147,8 +146,7 @@ RServe_ = {
 	-- @arg expression a data frame or a CellularSpace.
 	-- @usage import ("rstats")
 	-- R = RServe{}
-	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, 
-	-- weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
+	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
 	-- R:pca{data = data, terms = {"ctl", "trt", "weight"}} -- 1.2342, 0.9735, 0.7274
 	pca = function(self, expression)
 		if type(expression) ~= "table" then
@@ -194,8 +192,7 @@ RServe_ = {
 	-- @arg expression a data frame or a CellularSpace.
 	-- @usage import ("rstats")
 	-- R = RServe{}
-	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, 
-	-- weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
+	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
 	-- R:anova{data = data, terms = {"ctl", "trt", "weight"}, typeAnova = "owa", factors = {"ctl", "trt"}} -- 1.0, 8.0, 0.6409, 2.4190, 0.6409, 0.3023, 2.1196, 0.1835
 	anova = function(self, expression)
 		if type(expression) ~= "table" then
@@ -205,7 +202,6 @@ RServe_ = {
 			expression = convertionTypes(expression)
 		end
 		local term = #expression.terms
-		local tam = #expression
 		local str, df, i, fit
 		i = 1
 		while i <= term do
