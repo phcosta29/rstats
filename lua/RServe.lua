@@ -238,7 +238,7 @@ metaTableRServe_ = {
 -- if an entry is of an incompatible type returns with error.
 -- @arg attrTab.host The host name can be passed to R.
 -- @arg attrTab.port The port number can be passed to R.
--- @usage import ("rstats")s
+-- @usage import ("rstats")
 -- R = RServe{}
 function RServe(attrTab)
 	if type(attrTab) ~= "table" and attrTab ~= nil then
