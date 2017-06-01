@@ -16,16 +16,16 @@ local function convertionTypes(expression)
 		if belong(idx, {"FID", "cObj_", "past"}) then
 			return
 		end
-			
+
 		df[idx] = {}
 	end)
-	
+
 	forEachCell(expression.data, function(cell)
 		forEachElement(df, function(idx, values)
 			table.insert(values, cell[idx])
 		end)
 	end)
-	
+
 	df = DataFrame(df)
 	return df
 end
@@ -42,7 +42,7 @@ RServe_ = {
 		if type(expression) ~= "string" then
 			incompatibleTypeError(1, "string", expression)
 		end
-		
+
 		local result = luarserveevaluate(self.host, self.port, "Sys.setenv(LANG='en'); tryCatch({"..expression.."}, warning = function(war){return(list(war,0))}, error = function(err){return(list(err,1))})")
 		if result[1] then
 			if result[1][1] and type(result[1][1]) ~= "number" and type(result[1][1]) ~= "string" and type(result[1][1]) ~= "boolean" then
@@ -65,7 +65,7 @@ RServe_ = {
 			return result
 		end
 	end,
-	
+
 	--- It returns the arithmetic mean of a vector of values computed in R.
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression a table of numbers.
@@ -76,12 +76,12 @@ RServe_ = {
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
-		
+
 		local expressionR = table.concat{"mean(", vectorToString(expression), ")"}
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
-	
+
 	--- It returns the standard deviation of a vector of values computed in R.
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression a table of numbers.
@@ -92,12 +92,12 @@ RServe_ = {
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
-		
+
 		local expressionR = table.concat{"sd(", vectorToString(expression), ")"}
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
-	
+
 	--- It returns the linear regression of a table of vectors computed in R.
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression a DataFrame or a CellularSpace.
@@ -111,7 +111,7 @@ RServe_ = {
 		elseif type(expression.data) == "CellularSpace" then
 			expression.data = convertionTypes(expression)
 		end
-		
+
 		local term = #expression.terms
 		local stri, df, sumTerms
 		local str = vectorToString(expression.data[expression.response])
@@ -123,10 +123,10 @@ RServe_ = {
 			else
 				stri = table.concat{stri, expression.terms[i], " <- ", t, ";"}
 			end
-			
+
 			i = i - 1
 		end
-		
+
 		df = table.concat{expression.response, " = ", expression.response, ", "}
 		i = term
 		while i > 0 do
@@ -135,10 +135,10 @@ RServe_ = {
 			else
 				df = table.concat{df, expression.terms[i], " = ", expression.terms[i], "); result = lm(formula = "}
 			end
-			
+
 			i = i - 1
 		end
-		
+
 		i = 1
 		while i <= term do
 			if i == 1 then
@@ -150,15 +150,15 @@ RServe_ = {
 					sumTerms = table.concat{sumTerms, expression.terms[i], " + "}
 				end
 			end
-			
+
 			i = i + 1
 		end
-		
+
 		local result = self:evaluate(table.concat{expression.response, " <- ", str, "; ", stri, "; df = data.frame(", df, expression.response, " ~ ", sumTerms, ", data = df)"})
 		local resultTable = {result[1][2][2][1], result[1][2][2][2], result[1][2][2][3]}
 		return resultTable
 	end,
-	
+
 	--- It returns the principal component analysis of a table of vectors computed in R.
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression a DataFrame or a CellularSpace.
@@ -172,7 +172,7 @@ RServe_ = {
 		elseif type(expression.data) == "CellularSpace" then
 			expression.data = convertionTypes(expression)
 		end
-		
+
 		local term = #expression.terms
 		local str, df, i, j, resultTable
 		local rotation = {}
@@ -189,10 +189,10 @@ RServe_ = {
 					df = table.concat{df, expression.terms[i], " = ", expression.terms[i], "); "}
 				end
 			end
-			
+
 			i = i + 1
 		end
-		
+
 		local result = self:evaluate(table.concat{str, "df = data.frame(", df, "log.ir <- log(df[, 1:", term, "]); ir.pca <- prcomp(log.ir, center = TRUE, scale. = TRUE); ir.pca;"})
 		i = 1
 		while i <= term do
@@ -202,14 +202,14 @@ RServe_ = {
 				table.insert(rotation[i][2], result[1][2][3][(term * j) + i])
 				j = j + 1
 			end
-			
+
 			i = i + 1
 		end
-		
+
 		resultTable = {StandardDeviations = result[1][2][1], Rotation = rotation}
 		return resultTable
 	end,
-	
+
 	--- It returns the analysis of variance of a table of vectors computed in R.
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression a DataFrame or a CellularSpace.
@@ -223,7 +223,7 @@ RServe_ = {
 		elseif type(expression.data) == "CellularSpace" then
 			expression.data = convertionTypes(expression)
 		end
-		
+
 		local term = #expression.terms
 		local str, df, i, fit
 		i = 1
@@ -239,10 +239,10 @@ RServe_ = {
 					df = table.concat{df, expression.terms[i], " = ", expression.terms[i], "); "}
 				end
 			end
-			
+
 			i = i + 1
 		end
-		
+
 		switch(expression, "typeAnova"):caseof{
 			owa = function() fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], ",data = df); x = summary(fit); x;"} end,
 			rbd = function() fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], " + ", expression.factors[3], ",data = df); x = summary(fit); x;"} end,
@@ -254,7 +254,7 @@ RServe_ = {
 		local result = self:evaluate(table.concat{str, "df = data.frame(", df, fit})
 		return result
 	end
-	
+
 }
 metaTableRServe_ = {
 	__index = RServe_,
@@ -286,7 +286,7 @@ function RServe(attrTab)
 			end
 		end
 	end
-	
+
 	setmetatable(attrTab, metaTableRServe_)
 	return attrTab
 end
@@ -302,7 +302,7 @@ local function splitstring(str, sep)
 			counter = counter + 1
 		end
 	end
-	
+
 	return res
 end
 
@@ -322,7 +322,7 @@ local function getheader(str)
 	if #str < 4 then
 		return("ERROR: Invalid header (too short)")
 	end
-	
+
 	local header = string.sub(str, 1, 4)
 	local type = vstruct.read(QAP1_SEXP_HEADER_TYPE_FORMAT, string.sub(header, 1, 1))
 	local len = vstruct.read(QAP1_SEXP_HEADER_LEN_FORMAT, string.sub(header, 2, 4))
@@ -333,7 +333,7 @@ local function parsesexp(sexp)
 	if #sexp < 4 then
 		return("WARNING: Invalid SEXP (too short) - " .. #sexp)
 	end
-	
+
 	local sexpexps = {}
 	local sexpcounter = 1
 	local token = 1
