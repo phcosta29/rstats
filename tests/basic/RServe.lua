@@ -234,6 +234,12 @@ return {
 		unitTest:assertEquals(x[1], 22.4337, 0.0001)
 		unitTest:assertEquals(x[2], -0.000087823,0.000000001)
 		unitTest:assertEquals(x[3], -11.9502, 0.0001)
+		
+		data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
+		x = R:lm{data = data, response = "ctl", terms = {"trt", "weight"}}
+		unitTest:assertEquals(x[1], 6.2664, 0.0001)
+		unitTest:assertEquals(x[2], -0.3329,0.0001)
+		unitTest:assertEquals(x[3], 0.0647, 0.0001)
 	end,
 	__tostring = function(unitTest)
 		unitTest:assertEquals(tostring(RServe{}), [[host  string [localhost]
