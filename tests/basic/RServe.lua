@@ -213,6 +213,10 @@ return {
 		unitTest:assertEquals(x.StandardDeviations[1], 1.2342, 0.001)
 		unitTest:assertEquals(x.StandardDeviations[2], 0.9735, 0.001)
 		unitTest:assertEquals(x.StandardDeviations[3], 0.7274, 0.001)
+
+		data = CellularSpace{file = filePath("amazonia.shp", "base"),}
+		x = R:pca{data = data, terms = {"distroads", "protected", "distports"}}
+		print(vardump(x))
 	end,
 	anova = function(unitTest)
 		local R = RServe{}
@@ -226,6 +230,17 @@ return {
 		unitTest:assertEquals(x[1][2][2][3][2], 0.3023, 0.0001)
 		unitTest:assertEquals(x[1][2][2][4][1], 2.1196, 0.0001)
 		unitTest:assertEquals(x[1][2][2][5][1], 0.1835, 0.0001)
+
+		data = CellularSpace{file = filePath("amazonia.shp", "base"),}
+		x = R:anova{data = data, terms = {"distroads", "protected", "distports"}, typeAnova = "owa", factors = {"distroads", "distports"}}
+		unitTest:assertEquals(x[1][2][2][1][1], 1.0)
+		unitTest:assertEquals(x[1][2][2][1][2], 2227.0)
+		unitTest:assertEquals(x[1][2][2][2][1], 706045403888.55, 0.01)
+		unitTest:assertEquals(x[1][2][2][2][2], 13346096413892.0, 0.2)
+		unitTest:assertEquals(x[1][2][2][3][1], 706045403888.55, 0.01)
+		unitTest:assertEquals(x[1][2][2][3][2], 5992858739.9605, 0.0001)
+		unitTest:assertEquals(x[1][2][2][4][1], 117.8145, 0.0001)
+		unitTest:assertEquals(x[1][2][2][5][1], 0.000000000000000000000000008801, 0.000000000000000000000000000001)
 	end,
 	lm = function(unitTest)
 		local R = RServe{}
