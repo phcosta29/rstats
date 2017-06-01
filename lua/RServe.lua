@@ -169,8 +169,8 @@ RServe_ = {
 	pca = function(self, expression)
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
-		elseif type(expression) == "CellularSpace" then
-			expression = convertionTypes(expression)
+		elseif type(expression.data) == "CellularSpace" then
+			expression.data = convertionTypes(expression)
 		end
 		
 		local term = #expression.terms
@@ -220,8 +220,8 @@ RServe_ = {
 	anova = function(self, expression)
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
-		elseif type(expression) == "CellularSpace" then
-			expression = convertionTypes(expression)
+		elseif type(expression.data) == "CellularSpace" then
+			expression.data = convertionTypes(expression)
 		end
 		
 		local term = #expression.terms
