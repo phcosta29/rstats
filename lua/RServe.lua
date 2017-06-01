@@ -9,22 +9,27 @@ local function vectorToString(expression)
 	local expressionR = table.concat{"c(", table.concat(expression, ", "), ")"}
 	return expressionR
 end
+
 local function convertionTypes(expression)
 	local df = {}
 	forEachElement(expression.data.cells[1], function(idx)
 		if belong(idx, {"FID", "cObj_", "past"}) then
 			return
 		end
+			
 		df[idx] = {}
 	end)
+	
 	forEachCell(expression.data, function(cell)
 		forEachElement(df, function(idx, values)
 			table.insert(values, cell[idx])
 		end)
 	end)
+	
 	df = DataFrame(df)
 	return df
 end
+
 RServe_ = {
 	type_ = "RServe",
 	--- Execute an R command. It returns an error message or a value.
@@ -37,6 +42,7 @@ RServe_ = {
 		if type(expression) ~= "string" then
 			incompatibleTypeError(1, "string", expression)
 		end
+		
 		local result = luarserveevaluate(self.host, self.port, "Sys.setenv(LANG='en'); tryCatch({"..expression.."}, warning = function(war){return(list(war,0))}, error = function(err){return(list(err,1))})")
 		if result[1] then
 			if result[1][1] and type(result[1][1]) ~= "number" and type(result[1][1]) ~= "string" and type(result[1][1]) ~= "boolean" then
@@ -59,6 +65,7 @@ RServe_ = {
 			return result
 		end
 	end,
+	
 	--- It returns the arithmetic mean of a vector of values computed in R.
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression a table of numbers.
@@ -69,10 +76,12 @@ RServe_ = {
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
+		
 		local expressionR = table.concat{"mean(", vectorToString(expression), ")"}
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
+	
 	--- It returns the standard deviation of a vector of values computed in R.
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression a table of numbers.
@@ -83,13 +92,15 @@ RServe_ = {
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
 		end
+		
 		local expressionR = table.concat{"sd(", vectorToString(expression), ")"}
 		local result = self:evaluate(expressionR)
 		return result[1][1][1]
 	end,
+	
 	--- It returns the linear regression of a table of vectors computed in R.
 	-- if an entry is of an incompatible type returns with error.
-	-- @arg expression a data frame or a CellularSpace.
+	-- @arg expression a DataFrame or a CellularSpace.
 	-- @usage import ("rstats")
 	-- R = RServe{}
 	-- data = CellularSpace{file = filePath("amazonia.shp", "base"),}
@@ -97,10 +108,10 @@ RServe_ = {
 	lm = function(self, expression)
 		if type(expression) ~= "table" then
 			incompatibleTypeError(1, "table", expression)
-		end
-		if type(expression.data) == "CellularSpace" then
+		elseif type(expression.data) == "CellularSpace" then
 			expression.data = convertionTypes(expression)
 		end
+		
 		local term = #expression.terms
 		local stri, df, sumTerms
 		local str = vectorToString(expression.data[expression.response])
@@ -112,8 +123,10 @@ RServe_ = {
 			else
 				stri = table.concat{stri, expression.terms[i], " <- ", t, ";"}
 			end
+			
 			i = i - 1
 		end
+		
 		df = table.concat{expression.response, " = ", expression.response, ", "}
 		i = term
 		while i > 0 do
@@ -122,8 +135,10 @@ RServe_ = {
 			else
 				df = table.concat{df, expression.terms[i], " = ", expression.terms[i], "); result = lm(formula = "}
 			end
+			
 			i = i - 1
 		end
+		
 		i = 1
 		while i <= term do
 			if i == 1 then
@@ -135,15 +150,18 @@ RServe_ = {
 					sumTerms = table.concat{sumTerms, expression.terms[i], " + "}
 				end
 			end
+			
 			i = i + 1
 		end
+		
 		local result = self:evaluate(table.concat{expression.response, " <- ", str, "; ", stri, "; df = data.frame(", df, expression.response, " ~ ", sumTerms, ", data = df)"})
 		local resultTable = {result[1][2][2][1], result[1][2][2][2], result[1][2][2][3]}
 		return resultTable
 	end,
+	
 	--- It returns the principal component analysis of a table of vectors computed in R.
 	-- if an entry is of an incompatible type returns with error.
-	-- @arg expression a data frame or a CellularSpace.
+	-- @arg expression a DataFrame or a CellularSpace.
 	-- @usage import ("rstats")
 	-- R = RServe{}
 	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
@@ -154,6 +172,7 @@ RServe_ = {
 		elseif type(expression) == "CellularSpace" then
 			expression = convertionTypes(expression)
 		end
+		
 		local term = #expression.terms
 		local str, df, i, j, resultTable
 		local rotation = {}
@@ -170,8 +189,10 @@ RServe_ = {
 					df = table.concat{df, expression.terms[i], " = ", expression.terms[i], "); "}
 				end
 			end
+			
 			i = i + 1
 		end
+		
 		local result = self:evaluate(table.concat{str, "df = data.frame(", df, "log.ir <- log(df[, 1:", term, "]); ir.pca <- prcomp(log.ir, center = TRUE, scale. = TRUE); ir.pca;"})
 		i = 1
 		while i <= term do
@@ -181,14 +202,17 @@ RServe_ = {
 				table.insert(rotation[i][2], result[1][2][3][(term * j) + i])
 				j = j + 1
 			end
+			
 			i = i + 1
 		end
+		
 		resultTable = {StandardDeviations = result[1][2][1], Rotation = rotation}
 		return resultTable
 	end,
+	
 	--- It returns the analysis of variance of a table of vectors computed in R.
 	-- if an entry is of an incompatible type returns with error.
-	-- @arg expression a data frame or a CellularSpace.
+	-- @arg expression a DataFrame or a CellularSpace.
 	-- @usage import ("rstats")
 	-- R = RServe{}
 	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
@@ -199,6 +223,7 @@ RServe_ = {
 		elseif type(expression) == "CellularSpace" then
 			expression = convertionTypes(expression)
 		end
+		
 		local term = #expression.terms
 		local str, df, i, fit
 		i = 1
@@ -214,8 +239,10 @@ RServe_ = {
 					df = table.concat{df, expression.terms[i], " = ", expression.terms[i], "); "}
 				end
 			end
+			
 			i = i + 1
 		end
+		
 		switch(expression, "typeAnova"):caseof{
 			owa = function() fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], ",data = df); x = summary(fit); x;"} end,
 			rbd = function() fit = table.concat{"fit <- aov(", expression.factors[1], " ~ ", expression.factors[2], " + ", expression.factors[3], ",data = df); x = summary(fit); x;"} end,
@@ -227,6 +254,7 @@ RServe_ = {
 		local result = self:evaluate(table.concat{str, "df = data.frame(", df, fit})
 		return result
 	end
+	
 }
 metaTableRServe_ = {
 	__index = RServe_,
@@ -258,9 +286,11 @@ function RServe(attrTab)
 			end
 		end
 	end
+	
 	setmetatable(attrTab, metaTableRServe_)
 	return attrTab
 end
+
 local function splitstring(str, sep)
 	local res = {}
 	local counter = 1
@@ -272,8 +302,10 @@ local function splitstring(str, sep)
 			counter = counter + 1
 		end
 	end
+	
 	return res
 end
+
 local function buildstrmsg(rexp)
 	local command = 3
 	local length = (#rexp + 4)
@@ -285,19 +317,23 @@ local function buildstrmsg(rexp)
 	local fmt = QAP1_HEADER_FORMAT .. " " .. dp_fmt
 	return vstruct.write(fmt, " ", data)
 end
+
 local function getheader(str)
 	if #str < 4 then
 		return("ERROR: Invalid header (too short)")
 	end
+	
 	local header = string.sub(str, 1, 4)
 	local type = vstruct.read(QAP1_SEXP_HEADER_TYPE_FORMAT, string.sub(header, 1, 1))
 	local len = vstruct.read(QAP1_SEXP_HEADER_LEN_FORMAT, string.sub(header, 2, 4))
 	return({["exptype"] = type[2], ["hasatts"] = type[1], ["explen"] = len[1]})
 end
+
 local function parsesexp(sexp)
 	if #sexp < 4 then
 		return("WARNING: Invalid SEXP (too short) - " .. #sexp)
 	end
+	
 	local sexpexps = {}
 	local sexpcounter = 1
 	local token = 1
@@ -312,6 +348,7 @@ local function parsesexp(sexp)
 		sexpexps[sexpcounter] = att
 		sexpcounter = sexpcounter + 1
 	end
+
 	local content = string.sub(sexp, token, sexpend)
 	token = sexpend + 1
 	local data
@@ -337,11 +374,13 @@ local function parsesexp(sexp)
 	else
 		return("ERROR: unknown QAP1 expression type:" .. header.exptype)
 	end
+
 	sexpexps[sexpcounter] = data
 	sexpcounter = sexpcounter + 1
 	until token > #sexp
 	return(sexpexps)
 end
+
 local function calltcp(rsserver, rsport, msg)
 	tcp = socket.tcp()
 	tcp:settimeout(1, 'b')
@@ -349,10 +388,12 @@ local function calltcp(rsserver, rsport, msg)
 	if msg and msg ~= " " then
 		tcp:send(msg)
 	end
+
 	local s, status, partial = tcp:receive('*a')
 	tcp:close()
 	return s, status, partial
 end
+
 --- Establishes connection with R and returns value.
 -- if an entry is of an incompatible type returns with error.
 -- @arg rsserver The rsserver(host name) must be passed to R, but not necessarily by the user.
@@ -379,6 +420,7 @@ function luarserveevaluate(rsserver, rsport, rexp)
 	else
 		return("ERROR: parameter type " .. paramheader[1] .. " not implemented")
 	end
+
 	token = token + paramheader[2]
 	pcounter = pcounter + 1
 	until token > qmsgheader[2]
