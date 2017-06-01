@@ -1,7 +1,7 @@
 -- @example Implementation of the principal component analysis function.
 -- It returns the principal component analysis of a table of vectors computed in R.
 -- if an entry is of an incompatible type returns with error.
--- @arg expression a data frame or a CellularSpace.
+-- @arg expression a DataFrame or a CellularSpace.
 
 R = RServe{
 }
@@ -18,4 +18,4 @@ x = R:pca{
 	terms = {"weight", "trt", "gfg"}
 }
 
-print(vardump(x))
+print(x)
