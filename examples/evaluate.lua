@@ -2,7 +2,7 @@
 -- Execute an R command. It returns an error message or a value.
 -- if an entry is of an incompatible type returns with error.
 -- @arg expression The expression must be passed to R.
-
+import("rstats")
 R = RServe{
 }
 

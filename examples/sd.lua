@@ -2,7 +2,7 @@
 -- It returns the standard deviation of a vector of values computed in R.
 -- if an entry is of an incompatible type returns with error.
 -- @arg expression a table of numbers.
-
+import("rstats")
 R = RServe{
 }
 
