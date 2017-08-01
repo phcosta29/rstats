@@ -11,8 +11,8 @@ amazonia = CellularSpace{
 }
 
 x = R:lm{
-	data = amazonia, 
-	response = "prodes_10", 
+	data = amazonia,
+	response = "prodes_10",
 	terms = {"distroads", "protected", "distports"}
 }
 
