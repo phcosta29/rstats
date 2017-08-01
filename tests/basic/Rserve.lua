@@ -219,7 +219,7 @@ return {
 		unitTest:assertEquals(x.StandardDeviations[3], 0.7363, 0.001)
 
 		data = CellularSpace{file = filePath("amazonia.shp", "base"),}
-		x = R:pca{data = data, terms = {"distroads", "protected", "distports"}}	
+		x = R:pca{data = data, terms = {"distroads", "protected", "distports"}}
 		unitTest:assertEquals(x.StandardDeviations[1], 1.1967, 0.001)
 		unitTest:assertEquals(x.StandardDeviations[2], 0.9137, 0.001)
 		unitTest:assertEquals(x.StandardDeviations[3], 0.8562, 0.001)
