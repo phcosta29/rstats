@@ -1,13 +1,8 @@
 -- @example Implementation of the principal component analysis function.
 -- It returns the principal component analysis of a table of vectors computed in R.
 -- if an entry is of an incompatible type returns with error.
-<<<<<<< HEAD
 -- @arg expression a data frame or a CellularSpace.
 import("rstats")
-=======
--- @arg expression a DataFrame or a CellularSpace.
-
->>>>>>> 53f199203386cc11ad500b5e631121663120f374
 R = RServe{
 }
 
