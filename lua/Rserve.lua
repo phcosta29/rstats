@@ -29,8 +29,9 @@ local function convertionTypes(expression)
 	df = DataFrame(df)
 	return df
 end
-RServe_ = {
-	type_ = "RServe",
+
+Rserve_ = {
+	type_ = "Rserve",
 	--- Execute an R command. It returns an error message or a value.
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression The expression must be passed to R.
@@ -41,6 +42,7 @@ RServe_ = {
 		if type(expression) ~= "string" then
 			incompatibleTypeError(1, "string", expression)
 		end
+
 		local result = luaRserveevaluate(self.host, self.port, "Sys.setenv(LANG='en'); tryCatch({"..expression.."}, warning = function(war){return(list(war,0))}, error = function(err){return(list(err,1))})")
 		if result[1] then
 			if result[1][1] and type(result[1][1]) ~= "number" and type(result[1][1]) ~= "string" and type(result[1][1]) ~= "boolean" then
@@ -153,7 +155,7 @@ RServe_ = {
 		end
 
 		local result = self:evaluate(table.concat{expression.response, " <- ", str, "; ", stri, "; df = data.frame(", df, expression.response, " ~ ", sumTerms, ", data = df)"})
-		local resultTable = result[1][2][2] -- {result[1][2][2][1], result[1][2][2][2], result[1][2][2][3]}
+		local resultTable = {result[1][2][2][1], result[1][2][2][2], result[1][2][2][3]}
 		return resultTable
 	end,
 
@@ -161,7 +163,7 @@ RServe_ = {
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression a DataFrame or a CellularSpace.
 	-- @usage import ("rstats")
-	-- R = RServe{}
+	-- R = Rserve{}
 	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
 	-- R:pca{data = data, terms = {"ctl", "trt", "weight"}} -- 1.2342, 0.9735, 0.7274
 	pca = function(self, expression)
@@ -191,7 +193,7 @@ RServe_ = {
 			i = i + 1
 		end
 
-		local result = self:evaluate(table.concat{str, "df = data.frame(", df, "log.ir <- log(df[, 1:", term, "]); ir.pca <- prcomp(log.ir, center = TRUE, scale. = TRUE); ir.pca;"})
+		local result = self:evaluate(table.concat{str, "df = data.frame(", df, "ir.pca <- prcomp(df, center = TRUE, scale. = TRUE); ir.pca;"})
 		i = 1
 		while i <= term do
 			j = 0
@@ -212,7 +214,7 @@ RServe_ = {
 	-- if an entry is of an incompatible type returns with error.
 	-- @arg expression a DataFrame or a CellularSpace.
 	-- @usage import ("rstats")
-	-- R = RServe{}
+	-- R = Rserve{}
 	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
 	-- R:anova{data = data, terms = {"ctl", "trt", "weight"}, typeAnova = "owa", factors = {"ctl", "trt"}} -- 1.0, 8.0, 0.6409, 2.4190, 0.6409, 0.3023, 2.1196, 0.1835
 	anova = function(self, expression)
@@ -285,7 +287,7 @@ function Rserve(attrTab)
 		end
 	end
 
-	setmetatable(attrTab, metaTableRServe_)
+	setmetatable(attrTab, metaTableRserve_)
 	return attrTab
 end
 

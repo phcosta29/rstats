@@ -3,9 +3,9 @@
 -- if an entry is of an incompatible type returns with error.
 -- @arg expression The expression must be passed to R.
 import("rstats")
-R = RServe{
+R = Rserve{
 }
 
 x = R:evaluate("d <- c(1,2,3,4); e <- c('red', 'white', 'red', NA); f <- c(TRUE,TRUE,TRUE,FALSE); mydata <- data.frame(d,e,f)")
 
-print(x)
+print(vardump(x))

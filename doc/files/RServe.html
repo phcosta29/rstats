@@ -94,7 +94,7 @@
 		
 		
 		
-					<li><strong>RServe</strong></li>
+					<li><strong>Rserve</strong></li>
 				
 			
 		
@@ -153,7 +153,7 @@
 				</div> <!-- id="navigation" -->
 
 				<div id="content">
-					<h1>RServe
+					<h1>Rserve
 					
 					
 					</h1>
@@ -195,7 +195,7 @@
 							
 								
 									<tr>
-										<td class="name" nowrap><a href="#luarserveevaluate">luarserveevaluate</a>&nbsp;
+										<td class="name" nowrap><a href="#luaRserveevaluate">luaRserveevaluate</a>&nbsp;
 <td class="summary">Establishes connection with R and returns value.</td>
 									</tr>
 								
@@ -216,7 +216,7 @@
 							
 								
 									<tr>
-										<td class="name" nowrap><a href="#RServe">RServe</a>&nbsp;
+										<td class="name" nowrap><a href="#Rserve">Rserve</a>&nbsp;
 <td class="summary">Establishes host and port for communication with R.</td>
 									</tr>
 								
@@ -262,7 +262,7 @@ It returns the analysis of variance of a table of vectors computed in R. if an e
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: a data frame or a CellularSpace.
+	  <strong>#1</strong>: a DataFrame or a CellularSpace.
     </li> 
     
   
@@ -276,9 +276,8 @@ It returns the analysis of variance of a table of vectors computed in R. if an e
 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
-<span class="id">R</span> = <span class="function">RServe</span>{}
-<span class="id">data</span> = <span class="function">DataFrame</span>{<span class="id">ctl</span> = {<span class="number">4.17</span>, <span class="number">5.58</span>, <span class="number">5.18</span>, <span class="number">6.11</span>, <span class="number">4.50</span>, <span class="number">4.61</span>, <span class="number">5.17</span>, <span class="number">4.53</span>, <span class="number">5.33</span>, <span class="number">5.14</span>}, <span class="id">trt</span> = {<span class="number">4.81</span>, <span class="number">4.17</span>, <span class="number">4.41</span>, <span class="number">3.59</span>, <span class="number">5.87</span>, <span class="number">3.83</span>, <span class="number">6.03</span>, <span class="number">4.89</span>, <span class="number">4.32</span>, <span class="number">4.69</span>}, 
-<span class="id">weight</span> = {<span class="number">4.17</span>, <span class="number">5.18</span>, <span class="number">4.50</span>, <span class="number">5.17</span>, <span class="number">5.33</span>, <span class="number">4.81</span>, <span class="number">4.41</span>, <span class="number">5.87</span>, <span class="number">4.89</span>, <span class="number">4.69</span>}}
+<span class="id">R</span> = <span class="function">Rserve</span>{}
+<span class="id">data</span> = <span class="function">DataFrame</span>{<span class="id">ctl</span> = {<span class="number">4.17</span>, <span class="number">5.58</span>, <span class="number">5.18</span>, <span class="number">6.11</span>, <span class="number">4.50</span>, <span class="number">4.61</span>, <span class="number">5.17</span>, <span class="number">4.53</span>, <span class="number">5.33</span>, <span class="number">5.14</span>}, <span class="id">trt</span> = {<span class="number">4.81</span>, <span class="number">4.17</span>, <span class="number">4.41</span>, <span class="number">3.59</span>, <span class="number">5.87</span>, <span class="number">3.83</span>, <span class="number">6.03</span>, <span class="number">4.89</span>, <span class="number">4.32</span>, <span class="number">4.69</span>}, <span class="id">weight</span> = {<span class="number">4.17</span>, <span class="number">5.18</span>, <span class="number">4.50</span>, <span class="number">5.17</span>, <span class="number">5.33</span>, <span class="number">4.81</span>, <span class="number">4.41</span>, <span class="number">5.87</span>, <span class="number">4.89</span>, <span class="number">4.69</span>}}
 <span class="id">R</span>:<span class="function">anova</span>{<span class="id">data</span> = <span class="id">data</span>, <span class="id">terms</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>, <span class="string">"weight"</span>}, <span class="id">typeAnova</span> = <span class="string">"owa"</span>, <span class="id">factors</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>}} <span class="comment">-- 1.0, 8.0, 0.6409, 2.4190, 0.6409, 0.3023, 2.1196, 0.1835</span></code></pre>
 
 
@@ -327,7 +326,7 @@ Execute an R command. It returns an error message or a value. if an entry is of 
 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
-<span class="id">R</span> = <span class="function">RServe</span>{}
+<span class="id">R</span> = <span class="function">Rserve</span>{}
 <span class="id">R</span>:<span class="function">evaluate</span>(<span class="string">"x = 4"</span>)</code></pre>
 
 
@@ -362,7 +361,7 @@ It returns the linear regression of a table of vectors computed in R. if an entr
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: a data frame or a CellularSpace.
+	  <strong>#1</strong>: a DataFrame or a CellularSpace.
     </li> 
     
   
@@ -376,7 +375,7 @@ It returns the linear regression of a table of vectors computed in R. if an entr
 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
-<span class="id">R</span> = <span class="function">RServe</span>{}
+<span class="id">R</span> = <span class="function">Rserve</span>{}
 <span class="id">data</span> = <span class="function">CellularSpace</span>{<span class="id">file</span> = <span class="id">filePath</span>(<span class="string">"amazonia.shp"</span>, <span class="string">"base"</span>),}
 <span class="id">R</span>:<span class="function">lm</span>{<span class="id">data</span> = <span class="id">data</span>, <span class="id">response</span> = <span class="string">"prodes_10"</span>, <span class="id">terms</span> = {<span class="string">"distroads"</span>, <span class="string">"protected"</span>, <span class="string">"distports"</span>}} <span class="comment">-- 22.4337, -8.7823e-05, -11.9502</span></code></pre>
 
@@ -392,9 +391,9 @@ It returns the linear regression of a table of vectors computed in R. if an entr
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 
-<dt><h2><a name="luarserveevaluate">
+<dt><h2><a name="luaRserveevaluate">
 
-	</a><strong>luarserveevaluate</strong>&nbsp;
+	</a><strong>luaRserveevaluate</strong>&nbsp;
 
 </h2></dt>
 <dd>
@@ -436,7 +435,7 @@ Establishes connection with R and returns value. if an entry is of an incompatib
 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
-<span class="function">luarserveevaluate</span>(<span class="string">"localhost"</span>, <span class="number">6311</span>, <span class="string">"x=2"</span>)</code></pre>
+<span class="function">luaRserveevaluate</span>(<span class="string">"localhost"</span>, <span class="number">6311</span>, <span class="string">"x=2"</span>)</code></pre>
 
 
 
@@ -484,7 +483,7 @@ It returns the arithmetic mean of a vector of values computed in R. if an entry 
 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
-<span class="id">R</span> = <span class="function">RServe</span>{}
+<span class="id">R</span> = <span class="function">Rserve</span>{}
 <span class="id">R</span>:<span class="function">mean</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>} <span class="comment">-- 5.5</span></code></pre>
 
 
@@ -519,7 +518,7 @@ It returns the principal component analysis of a table of vectors computed in R.
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: a data frame or a CellularSpace.
+	  <strong>#1</strong>: a DataFrame or a CellularSpace.
     </li> 
     
   
@@ -533,9 +532,8 @@ It returns the principal component analysis of a table of vectors computed in R.
 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
-<span class="id">R</span> = <span class="function">RServe</span>{}
-<span class="id">data</span> = <span class="function">DataFrame</span>{<span class="id">ctl</span> = {<span class="number">4.17</span>, <span class="number">5.58</span>, <span class="number">5.18</span>, <span class="number">6.11</span>, <span class="number">4.50</span>, <span class="number">4.61</span>, <span class="number">5.17</span>, <span class="number">4.53</span>, <span class="number">5.33</span>, <span class="number">5.14</span>}, <span class="id">trt</span> = {<span class="number">4.81</span>, <span class="number">4.17</span>, <span class="number">4.41</span>, <span class="number">3.59</span>, <span class="number">5.87</span>, <span class="number">3.83</span>, <span class="number">6.03</span>, <span class="number">4.89</span>, <span class="number">4.32</span>, <span class="number">4.69</span>}, 
-<span class="id">weight</span> = {<span class="number">4.17</span>, <span class="number">5.18</span>, <span class="number">4.50</span>, <span class="number">5.17</span>, <span class="number">5.33</span>, <span class="number">4.81</span>, <span class="number">4.41</span>, <span class="number">5.87</span>, <span class="number">4.89</span>, <span class="number">4.69</span>}}
+<span class="id">R</span> = <span class="function">Rserve</span>{}
+<span class="id">data</span> = <span class="function">DataFrame</span>{<span class="id">ctl</span> = {<span class="number">4.17</span>, <span class="number">5.58</span>, <span class="number">5.18</span>, <span class="number">6.11</span>, <span class="number">4.50</span>, <span class="number">4.61</span>, <span class="number">5.17</span>, <span class="number">4.53</span>, <span class="number">5.33</span>, <span class="number">5.14</span>}, <span class="id">trt</span> = {<span class="number">4.81</span>, <span class="number">4.17</span>, <span class="number">4.41</span>, <span class="number">3.59</span>, <span class="number">5.87</span>, <span class="number">3.83</span>, <span class="number">6.03</span>, <span class="number">4.89</span>, <span class="number">4.32</span>, <span class="number">4.69</span>}, <span class="id">weight</span> = {<span class="number">4.17</span>, <span class="number">5.18</span>, <span class="number">4.50</span>, <span class="number">5.17</span>, <span class="number">5.33</span>, <span class="number">4.81</span>, <span class="number">4.41</span>, <span class="number">5.87</span>, <span class="number">4.89</span>, <span class="number">4.69</span>}}
 <span class="id">R</span>:<span class="function">pca</span>{<span class="id">data</span> = <span class="id">data</span>, <span class="id">terms</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>, <span class="string">"weight"</span>}} <span class="comment">-- 1.2342, 0.9735, 0.7274</span></code></pre>
 
 
@@ -585,7 +583,7 @@ It returns the standard deviation of a vector of values computed in R. if an ent
 
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
-<span class="id">R</span> = <span class="function">RServe</span>{}
+<span class="id">R</span> = <span class="function">Rserve</span>{}
 <span class="id">R</span>:<span class="function">sd</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>} <span class="comment">-- 3.02765</span></code></pre>
 
 

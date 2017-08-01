@@ -3,7 +3,7 @@
 -- if an entry is of an incompatible type returns with error.
 -- @arg expression a data frame or a CellularSpace.
 import("rstats")
-R = RServe{
+R = Rserve{
 }
 
 amazonia = CellularSpace{
@@ -11,9 +11,9 @@ amazonia = CellularSpace{
 }
 
 x = R:lm{
-	data = amazonia,
-	response = "prodes_10",
+	data = amazonia, 
+	response = "prodes_10", 
 	terms = {"distroads", "protected", "distports"}
 }
 
-print(x)
+print(vardump(x))
