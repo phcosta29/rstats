@@ -1,8 +1,12 @@
 -- @example Implementation of the analysis of variance function.
 -- It returns the analysis of variance of a table of vectors computed in R.
 -- if an entry is of an incompatible type returns with error.
+<<<<<<< HEAD
 -- @arg expression a data frame or a CellularSpace.
 import("rstats")
+=======
+-- @arg expression a DataFrame or a CellularSpace.
+>>>>>>> 53f199203386cc11ad500b5e631121663120f374
 R = RServe{
 }
 
@@ -20,4 +24,4 @@ x = R:anova{
 	factors = {"ctl", "trt"}
 }
 
-print(vardump(x))
+print(x)

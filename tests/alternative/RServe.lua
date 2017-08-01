@@ -68,5 +68,19 @@ return {
 			R:lm(2)
 		end
 		unitTest:assertError(error_func, incompatibleTypeMsg(1, "table", 2))
+	end,
+	pca = function(unitTest)
+		local R = RServe{}
+		local error_func = function()
+			R:pca(2)
+		end
+		unitTest:assertError(error_func, incompatibleTypeMsg(1, "table", 2))
+	end,
+	anova = function(unitTest)
+		local R = RServe{}
+		local error_func = function()
+			R:anova(2)
+		end
+		unitTest:assertError(error_func, incompatibleTypeMsg(1, "table", 2))
 	end
 }
