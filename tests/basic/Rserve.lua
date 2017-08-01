@@ -70,20 +70,6 @@ return {
 		unitTest:assertError(error_func, incompatibleTypeMsg(1, "table", 2))
 	end,
 	pca = function(unitTest)
-<<<<<<< HEAD
-		local R = Rserve{}
-		local error_func = function()
-			R:pca(2)
-		end
-		unitTest:assertError(error_func, incompatibleTypeMsg(1, "table", 2))
-	end,
-	anova = function(unitTest)
-		local R = Rserve{}
-		local error_func = function()
-			R:anova(2)
-		end
-		unitTest:assertError(error_func, incompatibleTypeMsg(1, "table", 2))
-=======
 		local R = RServe{}
 		local data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
 		local x = R:pca{data = data, terms = {"ctl", "trt", "weight"}}
@@ -137,6 +123,5 @@ return {
 		unitTest:assertEquals(tostring(RServe{}), [[host  string [localhost]
 port  number [6311]
 ]])
->>>>>>> 53f199203386cc11ad500b5e631121663120f374
 	end
 }
