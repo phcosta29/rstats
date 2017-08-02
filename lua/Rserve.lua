@@ -282,14 +282,14 @@ Rserve_ = {
 	--end
 }
 metaTableRserve_ = {
-	__index = function(index)
-		if Rserve_[index] then
-			return Rserve_[index]
-		end
-		return function(self, value)
-			return self:evaluate(index.."("..value..")")
-		end
-	end,
+	__index = Rserve_, --function(index)
+		--if Rserve_[index] then
+			--return Rserve_[index]
+		--end
+		--return function(self, value)
+		--	return self:evaluate(index.."("..value..")")
+		--end
+	--end,
 	__tostring = _Gtme.tostring
 	--__newindex = function(self, index, value)
 		--return self:declare({index = index, data = value})
