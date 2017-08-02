@@ -282,7 +282,7 @@ Rserve_ = {
 	--end
 }
 metaTableRserve_ = {
-	__index = function(self, index)
+	__index = function(index)
 		if Rserve_[index] then
 			return Rserve_[index]
 		end
