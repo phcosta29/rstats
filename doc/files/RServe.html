@@ -255,6 +255,7 @@
 It returns the analysis of variance of a table of vectors computed in R. if an entry is of an incompatible type returns with error.<br><br></span>
 
 
+	
 
 
 <!-- Function arguments -->
@@ -262,7 +263,118 @@ It returns the analysis of variance of a table of vectors computed in R. if an e
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: a DataFrame or a CellularSpace.
+	  <strong>factors</strong>: Columns of DataFrame or CellularSpace that will be the factors.
+    </li> 
+    
+  
+    <li>
+	  <strong>strategy</strong>: Type of ANOVA model to be used.
+    </li> 
+    
+      </span>
+      <!-- Strategy of the argument -->
+       
+      <table class="arg_tab">
+	  
+      
+        <tr>
+        
+          
+            <th>
+            Strategy
+            </th>
+          
+          
+            <th>
+            Description
+            </th>
+          
+        
+        <tr>
+        
+          
+            <td>
+            "owa"
+            </td>
+          
+          
+            <td>
+            One Way Anova (Completely Randomized Design)
+            </td>
+          
+        
+        <tr>
+        
+          
+            <td>
+            "rbd"
+            </td>
+          
+          
+            <td>
+            Randomized Block Design (B is the blocking factor)
+            </td>
+          
+        
+        <tr>
+        
+          
+            <td>
+            "twfd"
+            </td>
+          
+          
+            <td>
+            Two Way Factorial Design
+            </td>
+          
+        
+        <tr>
+        
+          
+            <td>
+            "aoc"
+            </td>
+          
+          
+            <td>
+            Analysis of Covariance
+            </td>
+          
+        
+        <tr>
+        
+          
+            <td>
+            "owf"
+            </td>
+          
+          
+            <td>
+            One Within Factor
+            </td>
+          
+        
+        <tr>
+        
+          
+            <td>
+            ""twftbf"
+            </td>
+          
+          
+            <td>
+            Two Within Factors, Two Between Factors
+            </td>
+          
+        
+        </tr>    
+      </table>
+      <span class="arg">
+    
+  
+    <li>
+	  <strong>terms</strong>: Columns of DataFrame or CellularSpace.
     </li> 
     
   
@@ -277,8 +389,10 @@ It returns the analysis of variance of a table of vectors computed in R. if an e
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
 <span class="id">R</span> = <span class="function">Rserve</span>{}
-<span class="id">data</span> = <span class="function">DataFrame</span>{<span class="id">ctl</span> = {<span class="number">4.17</span>, <span class="number">5.58</span>, <span class="number">5.18</span>, <span class="number">6.11</span>, <span class="number">4.50</span>, <span class="number">4.61</span>, <span class="number">5.17</span>, <span class="number">4.53</span>, <span class="number">5.33</span>, <span class="number">5.14</span>}, <span class="id">trt</span> = {<span class="number">4.81</span>, <span class="number">4.17</span>, <span class="number">4.41</span>, <span class="number">3.59</span>, <span class="number">5.87</span>, <span class="number">3.83</span>, <span class="number">6.03</span>, <span class="number">4.89</span>, <span class="number">4.32</span>, <span class="number">4.69</span>}, <span class="id">weight</span> = {<span class="number">4.17</span>, <span class="number">5.18</span>, <span class="number">4.50</span>, <span class="number">5.17</span>, <span class="number">5.33</span>, <span class="number">4.81</span>, <span class="number">4.41</span>, <span class="number">5.87</span>, <span class="number">4.89</span>, <span class="number">4.69</span>}}
-<span class="id">R</span>:<span class="function">anova</span>{<span class="id">data</span> = <span class="id">data</span>, <span class="id">terms</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>, <span class="string">"weight"</span>}, <span class="id">typeAnova</span> = <span class="string">"owa"</span>, <span class="id">factors</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>}} <span class="comment">-- 1.0, 8.0, 0.6409, 2.4190, 0.6409, 0.3023, 2.1196, 0.1835</span></code></pre>
+<span class="id">data</span> = <span class="function">DataFrame</span>{<span class="id">ctl</span> = {<span class="number">4.17</span>, <span class="number">5.58</span>, <span class="number">5.18</span>, <span class="number">6.11</span>, <span class="number">4.50</span>, <span class="number">4.61</span>, <span class="number">5.17</span>, <span class="number">4.53</span>, <span class="number">5.33</span>, <span class="number">5.14</span>}, 
+<span class="id">trt</span> = {<span class="number">4.81</span>, <span class="number">4.17</span>, <span class="number">4.41</span>, <span class="number">3.59</span>, <span class="number">5.87</span>, <span class="number">3.83</span>, <span class="number">6.03</span>, <span class="number">4.89</span>, <span class="number">4.32</span>, <span class="number">4.69</span>}, 
+<span class="id">weight</span> = {<span class="number">4.17</span>, <span class="number">5.18</span>, <span class="number">4.50</span>, <span class="number">5.17</span>, <span class="number">5.33</span>, <span class="number">4.81</span>, <span class="number">4.41</span>, <span class="number">5.87</span>, <span class="number">4.89</span>, <span class="number">4.69</span>}}
+<span class="id">R</span>:<span class="function">anova</span>{<span class="id">data</span> = <span class="id">data</span>, <span class="id">terms</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>, <span class="string">"weight"</span>}, <span class="id">strategy</span> = <span class="string">"owa"</span>, <span class="id">factors</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>}} <span class="comment">-- 1.0, 8.0, 0.6409, 2.4190, 0.6409, 0.3023, 2.1196, 0.1835</span></code></pre>
 
 
 
@@ -361,7 +475,12 @@ It returns the linear regression of a table of vectors computed in R. if an entr
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: a DataFrame or a CellularSpace.
+	  <strong>response</strong>: Column of DataFrame or CellularSpace.
+    </li> 
+    
+  
+    <li>
+	  <strong>terms</strong>: Columns of DataFrame or CellularSpace.
     </li> 
     
   
@@ -518,7 +637,7 @@ It returns the principal component analysis of a table of vectors computed in R.
 <ul><span class="arg">
 
     <li>
-	  <strong>#1</strong>: a DataFrame or a CellularSpace.
+	  <strong>terms</strong>: Columns of DataFrame or CellularSpace.
     </li> 
     
   
@@ -533,7 +652,9 @@ It returns the principal component analysis of a table of vectors computed in R.
 <h3>Usage</h3>
 <pre class="example"><code><span class="id">import</span> (<span class="string">"rstats"</span>)
 <span class="id">R</span> = <span class="function">Rserve</span>{}
-<span class="id">data</span> = <span class="function">DataFrame</span>{<span class="id">ctl</span> = {<span class="number">4.17</span>, <span class="number">5.58</span>, <span class="number">5.18</span>, <span class="number">6.11</span>, <span class="number">4.50</span>, <span class="number">4.61</span>, <span class="number">5.17</span>, <span class="number">4.53</span>, <span class="number">5.33</span>, <span class="number">5.14</span>}, <span class="id">trt</span> = {<span class="number">4.81</span>, <span class="number">4.17</span>, <span class="number">4.41</span>, <span class="number">3.59</span>, <span class="number">5.87</span>, <span class="number">3.83</span>, <span class="number">6.03</span>, <span class="number">4.89</span>, <span class="number">4.32</span>, <span class="number">4.69</span>}, <span class="id">weight</span> = {<span class="number">4.17</span>, <span class="number">5.18</span>, <span class="number">4.50</span>, <span class="number">5.17</span>, <span class="number">5.33</span>, <span class="number">4.81</span>, <span class="number">4.41</span>, <span class="number">5.87</span>, <span class="number">4.89</span>, <span class="number">4.69</span>}}
+<span class="id">data</span> = <span class="function">DataFrame</span>{<span class="id">ctl</span> = {<span class="number">4.17</span>, <span class="number">5.58</span>, <span class="number">5.18</span>, <span class="number">6.11</span>, <span class="number">4.50</span>, <span class="number">4.61</span>, <span class="number">5.17</span>, <span class="number">4.53</span>, <span class="number">5.33</span>, <span class="number">5.14</span>}, 
+<span class="id">trt</span> = {<span class="number">4.81</span>, <span class="number">4.17</span>, <span class="number">4.41</span>, <span class="number">3.59</span>, <span class="number">5.87</span>, <span class="number">3.83</span>, <span class="number">6.03</span>, <span class="number">4.89</span>, <span class="number">4.32</span>, <span class="number">4.69</span>}, 
+<span class="id">weight</span> = {<span class="number">4.17</span>, <span class="number">5.18</span>, <span class="number">4.50</span>, <span class="number">5.17</span>, <span class="number">5.33</span>, <span class="number">4.81</span>, <span class="number">4.41</span>, <span class="number">5.87</span>, <span class="number">4.89</span>, <span class="number">4.69</span>}}
 <span class="id">R</span>:<span class="function">pca</span>{<span class="id">data</span> = <span class="id">data</span>, <span class="id">terms</span> = {<span class="string">"ctl"</span>, <span class="string">"trt"</span>, <span class="string">"weight"</span>}} <span class="comment">-- 1.2342, 0.9735, 0.7274</span></code></pre>
 
 
