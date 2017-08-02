@@ -290,7 +290,7 @@ metaTableRserve_ = {
 			return self:evaluate(index.."("..value..")")
 		end
 	end,
-	__tostring = _Gtme.tostring,
+	__tostring = _Gtme.tostring
 	--__newindex = function(self, index, value)
 		--return self:declare({index = index, data = value})
 	--end
