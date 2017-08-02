@@ -55,7 +55,7 @@ Rserve_ = {
 				end
 			end
 		end
-		
+
 		while type(result) == "table" and #result == 1 do
 			result = result[1]
 		end
@@ -164,8 +164,8 @@ Rserve_ = {
 	-- @arg data.terms Columns of DataFrame or CellularSpace.
 	-- @usage import ("rstats")
 	-- R = Rserve{}
-	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, 
-	-- trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, 
+	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14},
+	-- trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69},
 	-- weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
 	-- R:pca{data = data, terms = {"ctl", "trt", "weight"}} -- 1.2342, 0.9735, 0.7274
 	pca = function(self, data)
@@ -228,8 +228,8 @@ Rserve_ = {
 	-- ""twftbf" & Two Within Factors, Two Between Factors \
 	-- @usage import ("rstats")
 	-- R = Rserve{}
-	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14}, 
-	-- trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69}, 
+	-- data = DataFrame{ctl = {4.17, 5.58, 5.18, 6.11, 4.50, 4.61, 5.17, 4.53, 5.33, 5.14},
+	-- trt = {4.81, 4.17, 4.41, 3.59, 5.87, 3.83, 6.03, 4.89, 4.32, 4.69},
 	-- weight = {4.17, 5.18, 4.50, 5.17, 5.33, 4.81, 4.41, 5.87, 4.89, 4.69}}
 	-- R:anova{data = data, terms = {"ctl", "trt", "weight"}, strategy = "owa", factors = {"ctl", "trt"}} -- 1.0, 8.0, 0.6409, 2.4190, 0.6409, 0.3023, 2.1196, 0.1835
 	anova = function(self, data)
@@ -283,12 +283,12 @@ Rserve_ = {
 }
 metaTableRserve_ = {
 	__index = function(self, index)
-		if Rserve_[index] then 
-			return Rserve_[index] 
+		if Rserve_[index] then
+			return Rserve_[index]
 		end
-			return function(self, value)
-				return self:evaluate(index.."("..value..")")
-			end
+		return function(self, value)
+			return self:evaluate(index.."("..value..")")
+		end
 	end,
 	__tostring = _Gtme.tostring,
 	--__newindex = function(self, index, value)
