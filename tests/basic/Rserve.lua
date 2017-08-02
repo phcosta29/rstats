@@ -20,7 +20,7 @@ return {
 		local R = Rserve{}
 		local x = R:evaluate("x = 2")
 		unitTest:assertEquals(x, 2)
-	
+
 		x = R:evaluate("rnorm(100)")
 		unitTest:assertEquals(#x, 100)
 
