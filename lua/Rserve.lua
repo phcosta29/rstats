@@ -286,8 +286,10 @@ metaTableRserve_ = {
 		if Rserve_[index] then
 			return Rserve_[index]
 		end
-		return function(self, index, value)
-			return self:evaluate(index.."("..value..")")
+		return function(self, value)
+			if value ~= null
+				return self:evaluate(index.."("..value..")")
+			end
 		end
 	end,
 	__tostring = _Gtme.tostring
