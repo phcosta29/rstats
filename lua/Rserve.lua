@@ -287,7 +287,7 @@ metaTableRserve_ = {
 			return Rserve_[index]
 		end
 		return function(self, value)
-			if value ~= null
+			if value ~= null then
 				return self:evaluate(index.."("..value..")")
 			end
 		end
