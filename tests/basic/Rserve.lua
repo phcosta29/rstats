@@ -10,11 +10,11 @@ return {
 		unitTest:assertEquals(x, 2)
 	end,
 
-	--__index = function(unitTest)
-		--local R = Rserve{}
-		--local x = R:sum("c(1, 2, 3)")
-		--unitTest:assertEquals(x, 6)
-	--end,
+	__index = function(unitTest)
+		local R = Rserve{}
+		local x = R:sum("c(1, 2, 3)")
+		unitTest:assertEquals(x, 6)
+	end,
 
 	evaluate = function(unitTest)
 		local R = Rserve{}
